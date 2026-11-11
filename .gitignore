@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+node_modules/
+dist/
+.vercel/
+coverage/
+*.log
+.DS_Store
+
+# Private planning notes, not part of the submission
+WIN-DECISION.md
+GITHUB-CRAWL.md

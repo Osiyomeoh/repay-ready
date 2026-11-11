@@ -1,0 +1,31 @@
+{
+  "name": "repay-ready",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "test": "tsx --test --test-timeout=30000 test/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "dev": "tsx --env-file-if-exists=.env scripts/serve.ts",
+    "check": "tsx --env-file-if-exists=.env scripts/check.ts",
+    "spike:serv": "tsx --env-file-if-exists=.env scripts/spike-serv.ts",
+    "record:sample": "tsx --env-file-if-exists=.env scripts/record-sample.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "fire-delay": "tsx --env-file-if-exists=.env scripts/fire-delay.ts",
+    "stills": "tsx scripts/stills.ts"
+  },
+  "dependencies": {
+    "viem": "2.56.9"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.0",
+    "prettier": "3.9.9",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3"
+  }
+}

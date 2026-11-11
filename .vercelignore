@@ -1,0 +1,14 @@
+# Never upload secrets or private notes.
+.env
+.env.*
+!.env.example
+WIN-DECISION.md
+GITHUB-CRAWL.md
+# Not needed to serve the page or the API.
+node_modules
+ship
+runs
+coverage
+.github
+*.log
+.DS_Store

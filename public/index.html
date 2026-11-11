@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Repay Ready</title>
+    <meta name="description" content="Check a Kite auto-repay on your Aave loan against the Oct 10, 2025 crash before you arm it." />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f766e'/%3E%3Cpath d='M9 17l5 5 9-11' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="wrap top">
+      <div class="brand"><span class="mark" aria-hidden="true"></span>Repay Ready</div>
+      <h1>Check your Kite auto-repay before you arm it.</h1>
+      <p class="lede">
+        On Oct 10, 2025, an Aave loan at health factor 1.05 had <strong>3 minutes</strong> before it could be liquidated. Kite's repay has to land inside that
+        window. Repay Ready replays your exact loan and trigger through Aave's own prices from that night, and tells you whether to arm, adjust or wait.
+      </p>
+    </header>
+
+    <main class="wrap">
+      <section class="card" id="step-address" aria-labelledby="h-address">
+        <h2 id="h-address"><span class="n">1</span> Your Aave loan on Base</h2>
+        <form id="address-form" class="row">
+          <label class="grow">
+            <span class="lbl">Loan address</span>
+            <input id="address" name="address" autocomplete="off" spellcheck="false" placeholder="0x…" required />
+          </label>
+          <button type="submit" id="address-go">Read loan</button>
+        </form>
+        <p class="hint" id="sample-hint" hidden>No loan handy? <button type="button" class="link" id="sample-go">See a recorded run</button>.</p>
+        <p class="msg" id="address-msg" role="status"></p>
+      </section>
+
+      <div id="recorded" class="banner" hidden></div>
+
+      <section class="card" id="step-position" hidden aria-labelledby="h-position">
+        <h2 id="h-position">The loan, read from Aave now</h2>
+        <div class="stats" id="pos-stats"></div>
+        <p class="fine" id="pos-fine"></p>
+        <p class="msg warn" id="pos-warn" hidden></p>
+      </section>
+
+      <section class="card" id="step-room" hidden aria-labelledby="h-room">
+        <h2 id="h-room">Oct 10, 2025: how long Kite would have had</h2>
+        <p class="fine" id="room-intro"></p>
+        <label class="slider">
+          <span class="lbl">If your trigger is health factor <output id="room-t"></output></span>
+          <input type="range" id="room-range" min="0" max="0" step="1" />
+        </label>
+        <p class="big" id="room-headline"></p>
+        <figure class="chart">
+          <svg id="room-chart" role="img" aria-labelledby="room-chart-title"><title id="room-chart-title"></title></svg>
+          <figcaption id="room-caption" class="fine"></figcaption>
+        </figure>
+        <table class="rooms" id="room-table">
+          <caption class="sr">
+            Worst-case time to liquidatable by trigger
+          </caption>
+        </table>
+      </section>
+
+      <section class="card" id="step-plan" hidden aria-labelledby="h-plan">
+        <h2 id="h-plan"><span class="n">2</span> Your trigger</h2>
+        <form id="plan-form">
+          <label>
+            <span class="lbl">In your own words (optional)</span>
+            <textarea
+              id="plan-text"
+              rows="4"
+              maxlength="2000"
+              placeholder="I'm away for 10 days. If my health factor drops to 1.1, repay 60 USDC. Keep it on for 14 days. My Passport wallet has 80 USDC."
+            ></textarea>
+          </label>
+          <div class="row end">
+            <button type="submit" class="ghost" id="plan-go">Fill the fields from this</button>
+          </div>
+          <p class="msg" id="plan-msg" role="status"></p>
+        </form>
+        <form id="fields" class="grid">
+          <label><span class="lbl">Repay when health factor drops below</span><input id="f-hf" inputmode="decimal" required /></label>
+          <label>
+            <span class="lbl">Repay (USDC)</span>
+            <span class="inline"
+              ><input id="f-amount" inputmode="decimal" /><label class="check"><input type="checkbox" id="f-max" /> full debt</label></span
+            >
+          </label>
+          <label><span class="lbl">Keep it armed for (days)</span><input id="f-expires" inputmode="numeric" required /></label>
+          <label><span class="lbl">You'll be unable to act for (days)</span><input id="f-away" inputmode="numeric" required /></label>
+          <label><span class="lbl">USDC in your Kite Passport wallet</span><input id="f-passport" inputmode="decimal" placeholder="optional" /></label>
+        </form>
+        <p class="fine">You choose every value. Kite's rule, and ours: we never pick them for you. We only tell you what the record says about yours.</p>
+      </section>
+
+      <section class="card" id="step-sign" hidden aria-labelledby="h-sign">
+        <h2 id="h-sign"><span class="n">3</span> Prove the loan is yours</h2>
+        <blockquote class="kite" id="kite-warning-1"></blockquote>
+        <p class="fine">
+          Kite repays the address you enter, so we ask you to prove it first. Sign the message below with the wallet that owns the loan. Signing costs nothing
+          and moves nothing.
+        </p>
+        <pre class="message" id="sign-message"></pre>
+        <div class="row">
+          <button type="button" id="sign-go">Sign with my wallet</button>
+          <details class="paste">
+            <summary>Signed elsewhere?</summary>
+            <label><span class="lbl">Paste the signature</span><input id="sign-paste" spellcheck="false" placeholder="0x…" /></label>
+          </details>
+        </div>
+        <p class="msg" id="sign-msg" role="status"></p>
+      </section>
+
+      <section class="card" id="step-check" hidden aria-labelledby="h-check">
+        <h2 id="h-check"><span class="n">4</span> Check</h2>
+        <button type="button" id="check-go" class="wide">Run the check</button>
+        <p class="msg" id="check-msg" role="status"></p>
+        <div id="result" hidden>
+          <div class="verdict" id="verdict"></div>
+          <div class="serv" id="serv"></div>
+          <ol class="checks" id="checks"></ol>
+          <div id="arm" hidden>
+            <h3>Arm it with Kite</h3>
+            <p class="fine">
+              Run this, open the approval link Kite prints, and arm it with your passkey. It reduces liquidation risk; it fires once, and then you need to arm a
+              new one.
+            </p>
+            <div class="cmd"><code id="cmd"></code><button type="button" class="ghost small" id="cmd-copy">Copy</button></div>
+            <blockquote class="kite" id="kite-warning-2"></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="card how" aria-labelledby="h-how">
+        <h2 id="h-how">How the check decides</h2>
+        <ol>
+          <li>
+            <strong>Your loan, exactly.</strong> We read every balance, price and threshold from Aave v3 on Base at one block, and rebuild your health factor.
+            If it doesn't match Aave's own number, we stop.
+          </li>
+          <li>
+            <strong>The worst night on record.</strong> We replay every Chainlink update Aave used on Oct 10–11, 2025, starting your trigger at each one, and
+            keep the fastest fall to liquidatable.
+          </li>
+          <li>
+            <strong>Kite's real speed.</strong> The room must be at least twice Kite's measured fire delay. Until that delay is measured, we refuse to say Kite
+            acts in time.
+          </li>
+          <li>
+            <strong>Two keys.</strong> Code runs nine checks. SERV Reasoning then applies the same policy on its own and validates its answer with its Shadow
+            Agent. If they disagree, or SERV fails, the answer is REFUSE and nothing is armed.
+          </li>
+        </ol>
+      </section>
+    </main>
+
+    <footer class="wrap foot">
+      <p>Read-only. Repay Ready never holds keys or funds, and it can't arm anything. You arm with Kite, with your passkey.</p>
+      <p>Prices: Aave's Chainlink feeds on Base. Reasoning: SERV Reasoning by OpenServ. Repay: Kite Passport <code>kpass defi</code>.</p>
+    </footer>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

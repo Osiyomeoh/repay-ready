@@ -1,0 +1,40 @@
+
+> repay-ready@0.1.0 spike:serv
+> tsx --env-file-if-exists=.env scripts/spike-serv.ts
+
+
+1. readSituation (Prompt Guard + strict schema): gpt-5.4-mini-2026-03-17, 11581 ms, usage {"prompt_tokens":720,"completion_tokens":50,"total_tokens":770,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":0,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+{
+  "trigger_hf": 1.1,
+  "amount_usdc": 60,
+  "amount_is_max": false,
+  "expires_days": 14,
+  "away_days": 10,
+  "passport_usdc": 80,
+  "out_of_scope": null
+}
+
+2. readSituation with nothing stated (every value must be null): gpt-5.4-mini-2026-03-17, 3522 ms, usage {"prompt_tokens":692,"completion_tokens":48,"total_tokens":740,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":0,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+{
+  "trigger_hf": null,
+  "amount_usdc": null,
+  "amount_is_max": false,
+  "expires_days": null,
+  "away_days": null,
+  "passport_usdc": null,
+  "out_of_scope": null
+}
+
+3. readSituation with an injection: ServError status=200 refused=true: SERV refused: I can't share that.
+
+Checks say REFUSE: ownership=unknown, room=unknown, size=fail
+
+4. servVerdict (Multipath + Shadow Agent): gpt-5.4-mini-2026-03-17, 30043 ms, usage {"prompt_tokens":1071,"completion_tokens":62,"total_tokens":1133,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":0,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+{
+  "verdict": "REFUSE",
+  "deciding_checks": [
+    "room"
+  ],
+  "message": "REFUSE: Arming now would not reliably help because the timing check is not confirmed. Please verify the delay is enough before arming."
+}
+recheck: { agrees: true, problems: [] }

@@ -21,9 +21,9 @@
 |---|---|---|---|
 | 1 | Now (10 min) | In the SERV console, three things:<br>(a) read the cost of the Nov 11 spike calls under Usage → Cost / Activity, and send me the dollar figure;<br>(b) turn on data collection (Payrun's Edition 01 notes put it at console.openserv.ai/settings/organization; confirm the setting exists);<br>(c) check whether the $5 pre-registration credits arrived (you saw $1). | Put the real cost per check into CLAIMS, README and the write-up, replacing the $0.0025 floor. Propose a price per check for you to approve. |
 | 2 | Nov 12 (≈ 1 h, a few dollars on Base) | **The kill test.** Follow the runbook in §2 and screen-record it. | Run `npm run fire-delay`, set `KITE_FIRE_DELAY` in `src/kite-delay.ts`, rerun the tests, record the sample, then run `npm run stills` for the verdict stills. |
-| 3 | Nov 12 | Add the SERV key to Vercel yourself: `npx vercel env add SERV_API_KEY production` (paste it there; I never see it). Decide whether live checks on the public demo may spend your SERV credits. | Redeploy (a new key reaches only new deployments), then rerun `npm run stills -- --base https://repay-ready.vercel.app` and one live check. **Deployed Nov 11:** https://repay-ready.vercel.app, with 0 console errors and 0 overflow at 390 and 1280 px; without the key, the check fails closed to REFUSE and shows no command. |
+| 3 | Done Nov 12 | You chose that I add the key. | Piped from `.env` into `vercel env add --sensitive`, never printed; redeployed. A live check on production: SERV said REFUSE and agreed with the checks (11.9 s); through the page at 390 px, 0 console errors and 0 overflow (`runs/2026-11-12-live-check.txt`). Public checks now spend your SERV credits (about 10 a minute per visitor). |
 | 4 | Done Nov 11 | You said "go". | Small local commits on `main`, authored by you, with no co-author trailer; not pushed. WIN-DECISION.md, GITHUB-CRAWL.md and every `.env` file stay out of the repo and out of the deploy (`.gitignore`, `.vercelignore`). |
-| 5 | Nov 13 | Create the repo and push, from `~/Documents/serv` (the name is free; it starts private):<br>`gh repo create Osiyomeoh/repay-ready --private --source . --remote origin --push -d "Check a Kite auto-repay on your Aave loan against Oct 10, 2025, before you arm it." -h https://repay-ready.vercel.app`<br>Make it public when you're ready (`gh repo edit Osiyomeoh/repay-ready --visibility public --accept-visibility-change-consequences`). Check that the first CI run is green. | Fix anything CI finds. |
+| 5 | Nov 13 | Make the repo public when you're ready: `gh repo edit Osiyomeoh/repay-ready --visibility public --accept-visibility-change-consequences`. | **Done Nov 12, with your OK:** created private at https://github.com/Osiyomeoh/repay-ready and pushed `main`; the first CI run passed (typecheck, format check, 63 tests). |
 | 6 | Nov 13–14 | Record the video (§3), using the kill-test recording from step 2. | Check every spoken number against CLAIMS. |
 | 7 | **Nov 15, 12:00 UTC** | **Feature freeze.** From here, fixes only. | |
 | 8 | Nov 15 | Post on X (§5) with the video and still 01. | |
@@ -161,7 +161,7 @@ On ARM it gives the exact `kpass defi repay-trigger create` command and Kite's w
 
 Prior work, declared: Loan Shield (my MIT repo, Morpho) gave the repay-to-target idea. The Aave version is new code.
 
-**Links:** demo https://repay-ready.vercel.app · repo [FILL] · Kite fire tx [FILL] · every number with its source: CLAIMS.md.
+**Links:** demo https://repay-ready.vercel.app · repo https://github.com/Osiyomeoh/repay-ready · Kite fire tx [FILL] · every number with its source: CLAIMS.md.
 
 ---
 
@@ -193,7 +193,7 @@ Attach the video and still 01. Tagging Kite: [FILL: Kite's official X handle; I 
 | Description: what, who, problem, how | §4 | ready except [FILL]s |
 | Project URL | https://repay-ready.vercel.app | ready |
 | X post URL | after step 8 | blocked: post |
-| One additional URL | the GitHub repo | blocked: repo |
+| One additional URL | https://github.com/Osiyomeoh/repay-ready | ready once you make it public |
 | Logo upload | `ship/logo.png` (512×512, the page's mark) | ready |
 | "Is data collection enabled for your project?" | Yes, once you turn it on in the SERV console (step 1b) | todo (you) |
 | Team type | Solo | todo (confirm) |
@@ -217,7 +217,7 @@ Attach the video and still 01. Tagging Kite: [FILL: Kite's official X handle; I 
 > - Prompt Guard's refusal arrives in `message.refusal`, so failing closed was one line.
 >
 > What would help:
-> 1. **Latency guidance.** The Shadow Agent verdict took 30.0 s for about 1.1k tokens in and 62 out; plain calls took 3.5 s. A documented p50/p95 per feature would help us set timeouts (we used 45 s).
+> 1. **Latency guidance.** The Shadow Agent verdict took 30.0 s on Nov 11, then 11.9 s and 7.9 s on Nov 12, each for about 1.1k tokens in and 60-odd out; plain calls took 3.5 s. A documented p50/p95 per feature would help us set timeouts (we used 45 s).
 > 2. **Cost in the response.** `usage` leaves out Prompt Guard and Shadow Agent, so we couldn't compute cost per call from the API. A `usage` breakdown or a cost field would make pricing a product on SERV much easier.
 > 3. **Credits.** The page says pre-registered participants get $5; my console showed $1 [check before sending].
 

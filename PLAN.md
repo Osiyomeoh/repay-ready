@@ -48,7 +48,7 @@ signature ─► verifyOwnership (EOA, ERC-1271, ERC-6492)
 1. `SERV_API_KEY` in `.env`, and data collection turned on.
 2. Install `kpass`, then log in.
 3. The kill test, which measures Kite's fire delay → `src/kite-delay.ts`.
-4. ~~Vercel login, so I can deploy.~~ Done Nov 11: https://repay-ready.vercel.app. The SERV key on Vercel is still Samuel's to add.
+4. ~~Vercel login, so I can deploy.~~ Done Nov 11: https://repay-ready.vercel.app. SERV key on Vercel since Nov 12.
 
 ## Cut list (first to last)
 

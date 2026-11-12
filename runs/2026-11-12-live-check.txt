@@ -1,0 +1,27 @@
+Live check on the deployed demo, Nov 12, 2026 (SERV_API_KEY on Vercel, production)
+
+POST https://repay-ready.vercel.app/api/check
+{"address":"0xDA0AFe3f64bc06b2cb4Fbf8eA98Bd7c4C907185B","triggerHf":1.05,"amount":50,"expiresDays":14,"awayDays":10,"passportUsdc":80}
+HTTP 200 in 13.5 s (whole request: Aave read, replay, checks, SERV verdict, recheck)
+
+Checks:
+  model      pass     Rebuilt HF 1.4989 matches Aave's 1.4989 at block 56464791 (gap 1.6e-11).
+  eligible   pass     USDC is the only debt (547.07 USDC), which is what Kite's auto-repay needs.
+  replay     pass     Replayed through 617 oracle updates (BTC, USDC) from Oct 10, 2025.
+  ownership  unknown  Not signed yet. Kite repays whatever address you enter; a signature proves this loan is yours.
+  kite_rule  pass     1.05 is above 1.00 and below your health factor 1.4989.
+  room       unknown  Worst case on Oct 10, 2025: HF 1.05 to liquidatable in 3 min. Kite's fire delay has not been measured yet, so we cannot say Kite acts in time.
+  size       fail     After repaying 50.00 USDC, the lowest replayed HF is 0.9916; we need 1.05.
+  funding    pass     80.00 USDC covers the 50.00 USDC this repay may need.
+  coverage   pass     Armed for 14 days; you're away 10. It fires once, then you must re-arm.
+
+SERV verdict: {"verdict": "REFUSE", "deciding_checks": ["room"], "message": "REFUSE: Arming now would not reliably help because the timing check is not confirmed. The reported fix is to sign the ownership message with this wallet, but that alone does not resolve the timing concern."}
+Recheck: {"agrees": true, "problems": []}
+Call: id chatcmpl-EjNNXFvn9t0263sxlCBjPJSpBbDyA, model gpt-5.4-mini-2026-03-17, 11898 ms, 1071 tokens in, 65 out
+Final: {"verdict": "REFUSE", "reason": null, "command": null}
+
+Same input through the page at 390 px (headless Chrome over CDP), a second SERV call:
+  overflow 0 px, console errors 0, kpass command shown: false
+  SERV panel: "SERV Reasoning said REFUSE. It agrees with the checks. gpt-5.4-mini-2026-03-17 with Shadow Agent validation · 7.9 s · 1,152 tokens"
+
+Why REFUSE: Kite's fire delay is not measured yet (room = unknown). The 50 USDC repay is also too small (size = fail; 78 USDC suggested).

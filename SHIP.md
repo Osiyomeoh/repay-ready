@@ -23,7 +23,7 @@
 | 2 | Nov 12 (≈ 1 h, a few dollars on Base) | **The kill test.** Follow the runbook in §2 and screen-record it. | Run `npm run fire-delay`, set `KITE_FIRE_DELAY` in `src/kite-delay.ts`, rerun the tests, record the sample, then run `npm run stills` for the verdict stills. |
 | 3 | Nov 12 | Add the SERV key to Vercel yourself: `npx vercel env add SERV_API_KEY production` (paste it there; I never see it). Decide whether live checks on the public demo may spend your SERV credits. | Redeploy (a new key reaches only new deployments), then rerun `npm run stills -- --base https://repay-ready.vercel.app` and one live check. **Deployed Nov 11:** https://repay-ready.vercel.app, with 0 console errors and 0 overflow at 390 and 1280 px; without the key, the check fails closed to REFUSE and shows no command. |
 | 4 | Done Nov 11 | You said "go". | Small local commits on `main`, authored by you, with no co-author trailer; not pushed. WIN-DECISION.md, GITHUB-CRAWL.md and every `.env` file stay out of the repo and out of the deploy (`.gitignore`, `.vercelignore`). |
-| 5 | Nov 13 | Create the GitHub repo and push (or tell me to push). Make it public when you're ready. Check that the first CI run is green. | Fix anything CI finds. |
+| 5 | Nov 13 | Create the repo and push, from `~/Documents/serv` (the name is free; it starts private):<br>`gh repo create Osiyomeoh/repay-ready --private --source . --remote origin --push -d "Check a Kite auto-repay on your Aave loan against Oct 10, 2025, before you arm it." -h https://repay-ready.vercel.app`<br>Make it public when you're ready (`gh repo edit Osiyomeoh/repay-ready --visibility public --accept-visibility-change-consequences`). Check that the first CI run is green. | Fix anything CI finds. |
 | 6 | Nov 13–14 | Record the video (§3), using the kill-test recording from step 2. | Check every spoken number against CLAIMS. |
 | 7 | **Nov 15, 12:00 UTC** | **Feature freeze.** From here, fixes only. | |
 | 8 | Nov 15 | Post on X (§5) with the video and still 01. | |
@@ -36,10 +36,19 @@
 
 Commands come from [passport-skills `defi-auto-repay/references/commands.md`](https://github.com/gokite-ai/passport-skills/blob/main/defi-auto-repay/references/commands.md). Every value is your choice. The rules below are Kite's own, plus what keeps the measurement clean.
 
-**Before you start**
-- `kpass` is installed and you are logged in (`kpass login`). Every `kpass defi` command needs a login.
-- You have a Passport EVM wallet. Without one, `kpass` returns `wallet_not_found`.
-- You have a wallet you control, holding a little ETH on Base for gas.
+**Before you start** (from Kite's [GETTING_STARTED](https://github.com/gokite-ai/passport-skills/blob/main/GETTING_STARTED.md), [authenticate-user](https://github.com/gokite-ai/passport-skills/blob/main/authenticate-user/SKILL.md) and [defi-auto-repay](https://github.com/gokite-ai/passport-skills/blob/main/defi-auto-repay/SKILL.md), read Nov 12, 2026 at commit `0a95e9c`)
+1. **Install `kpass` 6.8.9 or later**, outside this project folder:
+   ```sh
+   cd ~ && git clone https://github.com/gokite-ai/passport-skills && bash passport-skills/scripts/setup.sh
+   kpass --version
+   ```
+   Kite's `setup.sh` keeps a `kpass` that is new enough. Otherwise it runs `curl -fsSL https://cli.gokite.ai/install.sh | bash` (it accepts only `cli.gokite.ai` as the installer host).
+2. **Sign in.** `kpass me --output json` shows whether you are. If not, `kpass login` opens the browser to approve, and `kpass signup` creates a new account (Passport emails a magic link). Every `kpass defi` command needs a login, or it exits 3, "Not logged in".
+3. **One-time dashboard setup** (GETTING_STARTED step 3): register a passkey (you approve the trigger with it) and fund the wallet.
+4. **Passport EVM wallet.** If `kpass defi position` returns `wallet_not_found`, Kite's meaning is "The user has no Passport EVM wallet to pay from yet". Set it up in the Passport dashboard; the skill files don't name a command for it.
+5. **Your own wallet** holds a little ETH on Base for gas.
+
+**Real money:** Kite's skill says production runs "on Base mainnet with Circle USDC — a repay spends real funds". Keep the loan and the repay small.
 
 **Steps**
 1. **Open a small loan on Aave v3 Base** from your wallet: supply some collateral (WETH or cbBTC), then borrow a few USDC. USDC must be the loan's only debt; otherwise Kite returns `aave_position_unsupported_debt`.

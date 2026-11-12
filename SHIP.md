@@ -19,7 +19,7 @@
 
 | # | When | You do | Then I do |
 |---|---|---|---|
-| 1 | Now (10 min) | In the SERV console, three things:<br>(a) read the cost of the Nov 11 spike calls under Usage → Cost / Activity, and send me the dollar figure;<br>(b) turn on data collection (Payrun's Edition 01 notes put it at console.openserv.ai/settings/organization; confirm the setting exists);<br>(c) check whether the $5 pre-registration credits arrived (you saw $1). | Put the real cost per check into CLAIMS, README and the write-up, replacing the $0.0025 floor. Propose a price per check for you to approve. |
+| 1 | Now (10 min) | In the SERV console, three things:<br>(a) read the cost of the Nov 11 spike calls under Usage → Cost / Activity, and send me the dollar figure;<br>(b) turn on data collection (Payrun's Edition 01 notes put it at console.openserv.ai/settings/organization; confirm the setting exists);<br>(c) check whether the $5 pre-registration credits arrived (you saw $1). | Put the real cost per check into CLAIMS, README and the write-up, replacing the $0.0025 to $0.0030 floor. Propose a price per check for you to approve. |
 | 2 | Nov 12 (≈ 1 h, a few dollars on Base) | **The kill test.** Follow the runbook in §2 and screen-record it. | Run `npm run fire-delay`, set `KITE_FIRE_DELAY` in `src/kite-delay.ts`, rerun the tests, record the sample, then run `npm run stills` for the verdict stills. |
 | 3 | Done Nov 12 | You chose that I add the key. | Piped from `.env` into `vercel env add --sensitive`, never printed; redeployed. A live check on production: SERV said REFUSE and agreed with the checks (11.9 s); through the page at 390 px, 0 console errors and 0 overflow (`runs/2026-11-12-live-check.txt`). Public checks now spend your SERV credits (about 10 a minute per visitor). |
 | 4 | Done Nov 11 | You said "go". | Small local commits on `main`, authored by you, with no co-author trailer; not pushed. WIN-DECISION.md, GITHUB-CRAWL.md and every `.env` file stay out of the repo and out of the deploy (`.gitignore`, `.vercelignore`). |
@@ -217,7 +217,7 @@ Attach the video and still 01. Tagging Kite: [FILL: Kite's official X handle; I 
 > - Prompt Guard's refusal arrives in `message.refusal`, so failing closed was one line.
 >
 > What would help:
-> 1. **Latency guidance.** The Shadow Agent verdict took 30.0 s on Nov 11, then 11.9 s and 7.9 s on Nov 12, each for about 1.1k tokens in and 60-odd out; plain calls took 3.5 s. A documented p50/p95 per feature would help us set timeouts (we used 45 s).
+> 1. **Latency guidance.** The Shadow Agent verdict took 30.0 s on Nov 11, then 11.9 s, 7.9 s and 19.5 s on Nov 12, for 1.1k to 1.5k tokens in and 60 to 73 out; plain calls took 3.5 s. A documented p50/p95 per feature would help us set timeouts (we used 45 s).
 > 2. **Cost in the response.** `usage` leaves out Prompt Guard and Shadow Agent, so we couldn't compute cost per call from the API. A `usage` breakdown or a cost field would make pricing a product on SERV much easier.
 > 3. **Credits.** The page says pre-registered participants get $5; my console showed $1 [check before sending].
 

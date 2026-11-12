@@ -135,7 +135,7 @@ export interface ServVerdict {
   verdict: Verdict;
   /** IDs of the checks that decided the verdict. */
   deciding_checks: string[];
-  /** Two or three plain sentences for the borrower. */
+  /** Up to four plain sentences for the borrower, naming every fix. */
   message: string;
 }
 
@@ -143,18 +143,18 @@ export const VERDICT_POLICY = `You decide whether a borrower should arm a one-sh
 
 Each check has status pass, fail or unknown, and on_fail REFUSE or ADJUST.
 - If every check is pass → ARM.
-- Else if any check that is not pass has on_fail REFUSE → REFUSE. Deciding checks: every non-pass check with on_fail REFUSE.
+- Else if any check that is not pass has on_fail REFUSE → REFUSE. Deciding checks: every non-pass check with on_fail REFUSE, all of them.
 - Else → ADJUST. Deciding checks: every non-pass check.
 - For ARM, deciding checks is an empty list.
 
 Message rules:
-- Two or three short sentences a non-expert can act on. Start with the verdict word.
-- For ADJUST, name each fix exactly as given in the check's fix.
-- For REFUSE, say plainly why arming now would not reliably help, and what to do instead if a fix or action is given.
+- At most four short sentences a non-expert can act on. Start with the verdict word.
+- For REFUSE, first say plainly why arming now would not reliably help.
+- For ADJUST and REFUSE, then name every fix given on any non-pass check, whatever its on_fail, so the borrower sees everything to change in one message. Use each fix's own value: triggerHf is a new trigger, amount a new repay in USDC ("max" is the full debt), expiresDays a new expiry in days, passportUsdc the USDC to hold in the Passport wallet, and an action is said as written.
 - Use only numbers that appear in the check results. Never promise protection or a guarantee: say "reduces liquidation risk" if needed.`;
 
 const VERDICT_HINT =
-  "The verdict must follow the policy from the check statuses and on_fail values exactly. The message must start with the verdict word and contain no number absent from the check results.";
+  "The verdict must follow the policy from the check statuses and on_fail values exactly. The message must start with the verdict word, name every fix given on a non-pass check, and contain no number absent from the check results.";
 
 export async function servVerdict(report: Report): Promise<ServCall<ServVerdict>> {
   const facts = report.checks.map((c) => ({ id: c.id, status: c.status, on_fail: c.onFail, detail: c.detail, fix: c.fix ?? null }));

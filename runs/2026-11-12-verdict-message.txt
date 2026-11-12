@@ -1,0 +1,19 @@
+Verdict message after the prompt names every fix, Nov 12, 2026 (local, SERV_API_KEY from .env)
+
+npm run check -- 0xDA0AFe3f64bc06b2cb4Fbf8eA98Bd7c4C907185B --hf 1.05 --amount 50 --expires 14 --away 10 --passport 80 --json
+
+Checks (non-pass only; the other six passed):
+  ownership  unknown  on_fail ADJUST  fix {"action": "Sign the ownership message with this wallet."}
+  room       unknown  on_fail REFUSE  no fix (Kite's fire delay has not been measured yet)
+  size       fail     on_fail ADJUST  fix {"amount": 78}   lowest replayed HF after 50.00 USDC: 0.9916; need 1.05
+
+Code verdict: REFUSE
+
+Before (runs/2026-11-12-live-check.txt), SERV named only the ownership fix:
+  "REFUSE: Arming now would not reliably help because the timing check is not confirmed. The reported fix is to sign the ownership message with this wallet, but that alone does not resolve the timing concern."
+
+After:
+  SERV verdict: {"verdict": "REFUSE", "deciding_checks": ["room"], "message": "REFUSE: arming now would not reliably help because the fire delay has not been measured, so we cannot say Kite acts in time. Sign the ownership message with this wallet. Repay 78 USDC."}
+  Recheck: {"agrees": true, "problems": []}
+  Call: id chatcmpl-EjNezkSPVVw1Ppi4uITyr2uI9tUAM, model gpt-5.4-mini-2026-03-17, 19460 ms, 1529 tokens in, 73 out
+  Final: {"verdict": "REFUSE", "reason": null, "command": null}

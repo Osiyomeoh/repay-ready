@@ -17,3 +17,13 @@ After:
   Recheck: {"agrees": true, "problems": []}
   Call: id chatcmpl-EjNezkSPVVw1Ppi4uITyr2uI9tUAM, model gpt-5.4-mini-2026-03-17, 19460 ms, 1529 tokens in, 73 out
   Final: {"verdict": "REFUSE", "reason": null, "command": null}
+
+On production after the redeploy, Nov 13, 2026 (deployment dpl_2teUAxJm56JaXWg3VatJZvj3sZ61, aliased to https://repay-ready.vercel.app)
+Same input through the page at 390 px (headless Chrome over CDP):
+  overflow 0 px, console errors 0, kpass command shown: false
+  Loan has drifted: rebuilt HF 1.5185 matches Aave's 1.5185 at block 56684084 (gap 2.2e-11); debt 526.14 USDC
+  size fail: after repaying 50.00 USDC, the lowest replayed HF is 0.9955; fix button "Repay 75 USDC"
+  SERV message: "REFUSE: Arming now would not reliably help because the fire delay has not been measured, so it is not clear Kite acts in time. Sign the ownership message with this wallet. Increase the repay amount to 75 USDC."
+  SERV panel: "SERV Reasoning said REFUSE. It agrees with the checks. gpt-5.4-mini-2026-03-17 with Shadow Agent validation · 41.9 s · 1,600 tokens"
+  Note: 41.9 s is the slowest verdict so far, against the 45 s SERV timeout in src/serv.ts (api/check.ts maxDuration 60 s).
+  (One earlier page run in this session reached SERV but its result was lost when the script failed to save a screenshot; it is not counted here.)

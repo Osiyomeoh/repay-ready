@@ -12,7 +12,7 @@ Status is **done**, **todo**, or **blocked (who)**. Update it in the same commit
 | PLAN.md, CLAIMS.md, CHECKLIST.md | done | this folder |
 | Real tests | done (63 pass, some against live Base; none call SERV) | `npm test`; CI in `.github/workflows/ci.yml` runs typecheck, format check and tests on push; first GitHub run passed Nov 12 |
 | Typecheck clean | done | `npm run typecheck` |
-| Build clean | done Nov 11: Vercel build completed with no errors; Node pinned to 24.x (as local and CI), which cleared the only warnings | `npx vercel inspect <deployment> --logs` |
+| Build clean | done Nov 11: Vercel build completed with no errors; Node pinned to 24.x (as local and CI), which cleared the only warnings. Nov 13 redeploy: no errors; Vercel's newer builder (CLI 65.14.0) prints two npm warnings: unknown env config "cache-dir", and esbuild's postinstall not yet covered by allowScripts | `npx vercel inspect <deployment> --logs` |
 | Sample mode (a recorded real run) | code done; record after the kill test (now it would only show the unmeasured-delay REFUSE) | `npm run record:sample`, `GET /api/sample` |
 | Deployed demo | done Nov 11; SERV key on Vercel since Nov 12, and a live check there got SERV's REFUSE, agreeing with the checks (`runs/2026-11-12-live-check.txt`) | https://repay-ready.vercel.app; `.env`, private notes and source files return 404 |
 | 390 px: 0 console errors, 0 overflow | done on the deployed URL (Nov 11, 2026): loan read, Oct 10 room, and a full check run to its verdict | `npm run stills -- --base <url>` fails on any console error or overflow |

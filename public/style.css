@@ -552,6 +552,19 @@ button.link {
 code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
+a {
+  color: var(--accent);
+  font-weight: 600;
+}
+#night-form {
+  margin-top: 16px;
+}
+#night-row {
+  margin-top: 14px;
+}
+#night-row code {
+  overflow-wrap: anywhere;
+}
 .how ol {
   margin: 0;
   padding-left: 20px;

@@ -65,12 +65,16 @@ export interface Position {
 
 const toUsd = (base: bigint) => Number(base) / 1e8;
 
-/** Aave PercentageMath.percentMul (half-up). */
-const percentMul = (v: bigint, bps: bigint) => (v * bps + 5000n) / 10000n;
 /** Aave WadRayMath.wadDiv (half-up). */
 const wadDiv = (a: bigint, b: bigint) => (a * 10n ** 18n + b / 2n) / b;
 
-/** Rebuild the HF from legs exactly the way Aave's GenericLogic does. Exported for tests. */
+/**
+ * Rebuild the HF from legs exactly the way Aave's GenericLogic.calculateUserAccountData
+ * does from v3.5.0 on (https://github.com/aave-dao/aave-v3-origin/blob/v3.5.0/src/contracts/protocol/libraries/logic/GenericLogic.sol):
+ * collateral is valued rounding down, debt rounding up (mulDivCeil), and the HF is
+ * wadDiv(Σ collateral_i × LT_i, totalDebt) / 10000, with no rounded average LT in between.
+ * Aave on Base already used this on Oct 10, 2025. Exported for tests.
+ */
 export function rebuildHf(collateral: Leg[], debt: Leg[]) {
   let totalColl = 0n;
   let ltWeighted = 0n;
@@ -80,9 +84,13 @@ export function rebuildHf(collateral: Leg[], debt: Leg[]) {
     ltWeighted += b * BigInt(c.ltBps);
   }
   let totalDebt = 0n;
-  for (const d of debt) totalDebt += (d.raw * d.priceE8) / 10n ** BigInt(d.decimals);
+  for (const d of debt) {
+    const unit = 10n ** BigInt(d.decimals);
+    totalDebt += (d.raw * d.priceE8 + unit - 1n) / unit;
+  }
+  // getUserAccountData reports this rounded-down average; the HF does not use it.
   const avgLt = totalColl === 0n ? 0n : ltWeighted / totalColl;
-  const hfWad = totalDebt === 0n ? null : wadDiv(percentMul(totalColl, avgLt), totalDebt);
+  const hfWad = totalDebt === 0n ? null : wadDiv(ltWeighted, totalDebt) / 10_000n;
   return {
     collateralUsd: toUsd(totalColl),
     debtUsd: toUsd(totalDebt),

@@ -1,0 +1,121 @@
+The real-night backtest: every Aave v3 Base borrower whose USDC debt was liquidated from Oct 10, 2025 12:00 UTC to Oct 11, 2025 12:00 UTC, Nov 13, 2026
+
+What it reads (read-only, public archive RPCs):
+- Aave v3 Pool LiquidationCall logs with USDC as the debt asset, blocks 36,654,127 to 36,697,326;
+- each borrower's position from Aave at block 36,654,126 (the last block before 12:00 UTC) and one block before its first liquidation;
+- the replay of the noon position through data/oct10-2025.json, compared with Aave's own health factor one block before the liquidation.
+Output: public/oct10-liquidations.json, generatedAt 2026-11-13T16:02:51.088Z, from the price record fetched 2026-11-13T15:37:01.037Z
+(window 2025-10-10T12:00:00.000Z to 2025-10-11T12:00:00.000Z; noon block 36,654,126; logs from 36,654,127 to 36,697,326)
+
+A first run the same afternoon found a bug in the live check, now fixed:
+- src/aave.ts rebuilt the health factor with Aave's pre-v3.5 formula (a rounded-down average liquidation threshold, debt rounded down).
+- Aave v3.5.0 and later compute wadDiv(sum of collateral_i x LT_i, totalDebt) / 10000, with debt rounded up (mulDivCeil):
+  https://github.com/aave-dao/aave-v3-origin/blob/v3.5.0/src/contracts/protocol/libraries/logic/GenericLogic.sol
+- On loans whose collateral legs have different liquidation thresholds the old rebuild missed Aave's HF by more than the 1e-6 tolerance
+  (3.5e-5, 6.0e-5 and 8.9e-5 on three loans probed at 12:00 UTC), so the check refused them as "cannot reproduce".
+  In that first run, 123 of the 278 USDC-only loans failed the match at 12:00 UTC, all with two or more collateral legs. Example: 0x1c4E6eb654C8d7ddFB241831cB173b113E817a8C (WETH + cbBTC) at block 36,654,126,
+  Aave HF 1.0260549926172287; the old rebuild gave 1.0259934476806738 (gap 6.0e-5); the fixed rebuild gives 1.0260549926172287 exactly (test/aave.test.ts).
+- The run below is after the fix: 0 USDC-only loans fail the match.
+
+$ npx tsx scripts/oct10-liquidations.ts
+logs: block 36654127 of 36697326, 0 USDC-debt liquidations so far
+logs: block 36659127 of 36697326, 0 USDC-debt liquidations so far
+logs: block 36664127 of 36697326, 27 USDC-debt liquidations so far
+logs: block 36669127 of 36697326, 46 USDC-debt liquidations so far
+logs: block 36674127 of 36697326, 350 USDC-debt liquidations so far
+logs: block 36679127 of 36697326, 351 USDC-debt liquidations so far
+logs: block 36684127 of 36697326, 351 USDC-debt liquidations so far
+logs: block 36689127 of 36697326, 351 USDC-debt liquidations so far
+logs: block 36694127 of 36697326, 351 USDC-debt liquidations so far
+logs: 351 USDC-debt liquidations in blocks 36654127..36697326
+positions: 25 of 322
+positions: 50 of 322
+positions: 75 of 322
+positions: 100 of 322
+positions: 125 of 322
+positions: 150 of 322
+positions: 175 of 322
+positions: 200 of 322
+positions: 225 of 322
+positions: 250 of 322
+positions: 275 of 322
+positions: 300 of 322
+positions: 322 of 322
+{
+ "borrowers": 322,
+ "liquidations": 351,
+ "usdcRepaid": 5124812.26,
+ "bonusUsdc": {
+  "total": 345765.39,
+  "median": 83.67,
+  "legsMissing": 0
+ },
+ "preDebtUsd": {
+  "median": 2677.84,
+  "underDefiSaverMin": 87,
+  "under100": 41
+ },
+ "liquidatedInFirstBlock": 139,
+ "noonHf": {
+  "median": 1.140716513207881,
+  "below1_1": 83,
+  "below1_05": 27,
+  "of": 320
+ },
+ "usdcOnly": 278,
+ "replayable": 221,
+ "notReplayable": {
+  "no recorded price path for this collateral (EURC)": 4,
+  "no recorded price path for this collateral (AAVE)": 52,
+  "no recorded price path for this collateral (EURC, AAVE)": 1
+ },
+ "samePosition": 173,
+ "replayErr": {
+  "median": 0.0000638,
+  "max": 0.0000925,
+  "within1e4": 173,
+  "of": 173
+ },
+ "replayLiquidatableByFirstLiquidation": 173,
+ "triggers": [
+  {
+   "level": "1.2",
+   "crossed": 26,
+   "belowAtNoon": 147,
+   "minSeconds": 21522,
+   "medianSeconds": 22782,
+   "underFiveMinutes": 0,
+   "fastest": "0xB40cc7f34089526b1Dd8547E00350641048AfE76"
+  },
+  {
+   "level": "1.1",
+   "crossed": 132,
+   "belowAtNoon": 41,
+   "minSeconds": 1170,
+   "medianSeconds": 12187,
+   "underFiveMinutes": 0,
+   "fastest": "0x6F4D85874B01E84b42349Bd73AF8F24EA4928DA8"
+  },
+  {
+   "level": "1.05",
+   "crossed": 157,
+   "belowAtNoon": 16,
+   "minSeconds": 240,
+   "medianSeconds": 1230,
+   "underFiveMinutes": 31,
+   "fastest": "0x296C5a5C6753a7990A6537e1F9ACbC9B7950E6be"
+  }
+ ],
+ "byHour": {
+  "2025-10-10T15": 26,
+  "2025-10-10T16": 1,
+  "2025-10-10T17": 2,
+  "2025-10-10T18": 3,
+  "2025-10-10T19": 14,
+  "2025-10-10T20": 27,
+  "2025-10-10T21": 277,
+  "2025-10-11T01": 1
+ }
+}
+wrote public/oct10-liquidations.json
+exit 0

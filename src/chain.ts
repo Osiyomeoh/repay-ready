@@ -7,12 +7,28 @@ export const AAVE_POOL: Address = "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5";
 export const AAVE_ORACLE: Address = "0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156";
 export const USDC: Address = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
 
-/** The Chainlink feeds Aave's oracle prices Base collateral from (AaveOracle.getSourceOfAsset). */
+/**
+ * The Chainlink feeds Aave's Base oracle priced collateral from on Oct 10, 2025
+ * (AaveOracle.getSourceOfAsset at block 36,654,126, the last block before 12:00 UTC). Aave has
+ * changed every source since, so these are not today's feeds;
+ * scripts/fetch-oct10.ts checks them on-chain before it records a round.
+ */
 export const FEEDS = {
-  ETH: "0x9dA00D23465282005DB222a441a663eE7B9dfCc8", // ETH / USD
-  BTC: "0x3A932b286715abc4A86a4ACAF68A6cdD89E0d446", // BTC / USD
-  USDC: "0x1550207eAeB590D1557a6E6C066D3d57B5A4Dc65", // USDC / USD (under Aave's "Capped USDC/USD")
+  ETH: "0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70", // ETH / USD
+  BTC: "0x64c911996D3c6aC71f9b455B1E8E7266BcbD848F", // BTC / USD
+  USDC: "0x7e860098F58bBFC8648a4311b374B1D669a2bc6B", // USDC / USD (under Aave's capped USDC adapter 0xfcF82bFa…)
 } as const satisfies Record<string, Address>;
+
+/**
+ * The replayed window, Oct 10, 2025 12:00 UTC → Oct 11, 2025 12:00 UTC, and the
+ * last Base block at or before each end (scripts/fetch-oct10.ts checks both).
+ */
+export const OCT10 = {
+  from: Date.UTC(2025, 9, 10, 12, 0, 0) / 1000,
+  to: Date.UTC(2025, 9, 11, 12, 0, 0) / 1000,
+  fromBlock: 36_654_126n,
+  toBlock: 36_697_326n,
+} as const;
 
 export type Family = keyof typeof FEEDS | "FIXED" | "OTHER";
 

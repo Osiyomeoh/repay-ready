@@ -9,11 +9,18 @@ Rule: a number goes in the README, the page, the video or the submission only if
 | Claim | Value | Source |
 |---|---|---|
 | Window replayed | Oct 10, 2025 12:00 UTC → Oct 11, 2025 12:00 UTC | `scripts/fetch-oct10.ts` → `data/oct10-2025.json` |
-| Prices are Aave's own oracle prices | WETH, cbETH, wstETH, weETH, ezETH and wrsETH are priced from Chainlink ETH/USD `0x9dA00D23465282005DB222a441a663eE7B9dfCc8`. cbBTC, tBTC and LBTC are priced from BTC/USD `0x3A932b286715abc4A86a4ACAF68A6cdD89E0d446`. USDC and USDbC are priced from USDC/USD `0x1550207eAeB590D1557a6E6C066D3d57B5A4Dc65` (through capped adapters) | `scripts/spike-sources.ts` (AaveOracle `getSourceOfAsset` on Base) |
-| ETH oracle updates in the window | 674 | `npx tsx scripts/oct10-table.ts` |
-| ETH worst fall | 20.93%, from 13:39:21Z to 21:20:37Z | same |
-| ETH low on Aave's oracle | $3,469.0189 at 21:20:37Z | `test/replay.test.ts` |
-| BTC oracle updates / worst fall | 617 / 14.18%, from 13:39:47Z to 21:20:01Z | `scripts/oct10-table.ts` |
+| Prices are the ones Aave's oracle used that day | WETH, cbETH, wstETH, weETH, ezETH and wrsETH were priced from Chainlink ETH/USD `0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70`. cbBTC, tBTC and LBTC were priced from BTC/USD `0x64c911996D3c6aC71f9b455B1E8E7266BcbD848F`. USDC and USDbC were priced from USDC/USD `0x7e860098F58bBFC8648a4311b374B1D669a2bc6B`, through Aave's capped USDC adapter `0xfcF82bFa2485253263969167583Ea4de09e9993b`. Each was read with AaveOracle `getSourceOfAsset` at blocks 36,654,126 and 36,697,326 (the last blocks before 12:00 UTC on Oct 10 and Oct 11). Aave has replaced every one of these sources since | `scripts/fetch-oct10.ts` checks every ETH, BTC and USDC reserve on-chain and stops on any mismatch (Nov 13, 2026) |
+| ETH oracle updates in the window (ETH and USDC rounds) | 674 | `npx tsx scripts/oct10-table.ts` |
+| ETH worst fall | 19.80%, from 13:38:39Z to 21:20:25Z | same |
+| ETH low on Aave's oracle | $3,515.73425953 at 21:20:25Z | `test/replay.test.ts` |
+| BTC oracle updates / worst fall | 613 / 14.14%, from 13:39:43Z to 21:20:31Z | `scripts/oct10-table.ts` |
+
+**Correction, Nov 13, 2026.** Until this date the record came from today's feeds (ETH/USD `0x9dA00D23…`, BTC/USD `0x3A932b28…`, USDC/USD `0x1550207e…`), because `scripts/spike-sources.ts` read Aave's sources at the latest block. Aave used different feeds on Oct 10, 2025. So the old numbers were wrong:
+- the ETH low ($3,469.0189);
+- the falls (20.93% for ETH, 14.18% for BTC);
+- the room table, and the headline "3 minutes".
+
+The record was re-fetched from the Oct 10 feeds, and every number here was rerun.
 
 ## Room: time from "HF = trigger" to "liquidatable", worst case over every start in the record
 
@@ -21,15 +28,15 @@ From `npx tsx scripts/oct10-table.ts`, for a loan with USDC-only debt and one co
 
 | Trigger HF | ETH collateral | BTC collateral |
 |---|---|---|
-| 1.02 | 60 s | 28 s |
-| **1.05** | **180 s (3.0 min)**, 21:15:37Z → 21:18:37Z | **180 s (3.0 min)**, 21:17:01Z → 21:20:01Z |
-| 1.08 | 300 s (5.0 min) | 480 s (8.0 min) |
-| 1.10 | 480 s (8.0 min) | 1,560 s (26.0 min) |
-| 1.15 | 1,950 s (32.5 min) | 22,932 s (382.2 min) |
-| 1.20 | 21,042 s (350.7 min) | never liquidatable |
-| 1.25 | 24,314 s (405.2 min) | never liquidatable |
+| 1.02 | 60 s | 32 s |
+| **1.05** | **208 s (3.5 min)**, 21:11:27Z → 21:14:55Z | **242 s (4.0 min)**, 21:15:59Z → 21:20:01Z |
+| 1.08 | 418 s (7.0 min) | 480 s (8.0 min) |
+| 1.10 | 478 s (8.0 min) | 1,622 s (27.0 min) |
+| 1.15 | 8,074 s (134.6 min) | 22,996 s (383.3 min) |
+| 1.20 | 21,582 s (359.7 min) | never liquidatable |
+| 1.25 | never liquidatable | never liquidatable |
 
-**The headline number is "3 minutes"** (HF 1.05, both ETH and BTC).
+**The headline number is "3.5 minutes"** (HF 1.05, ETH collateral; 4 minutes for BTC).
 
 Corrections to WIN-DECISION.md:
 - **"4 minutes" and "111 minutes" are superseded.** Those came from Coinbase 5-minute candles and a single start time (12:00Z). The numbers above come from Aave's own oracle, take the worst case over every oracle update, and come from a script you can rerun.
@@ -40,11 +47,37 @@ Corrections to WIN-DECISION.md:
 | Claim | Value | Source |
 |---|---|---|
 | The rebuilt HF matches Aave's `getUserAccountData` | Relative gap 1.35e-11 for `0xDA0AFe3f64bc06b2cb4Fbf8eA98Bd7c4C907185B` (cbBTC / USDC, HF 1.5134) at block 56,011,865 | `npx tsx scripts/read-position.ts 0xDA0AFe3f64bc06b2cb4Fbf8eA98Bd7c4C907185B` (Nov 11, 2026) |
-| Check on the demo loan (live, so it drifts) | `--hf 1.05 --amount 50 --expires 14 --away 10 --passport 80`: size check fails, lowest replayed HF after the repay 0.9916, suggested repay 78 USDC; final REFUSE | `npm run check -- 0xDA0AFe3f64bc06b2cb4Fbf8eA98Bd7c4C907185B …` (Nov 11, 2026) |
+| Check on the demo loan (live, so it drifts) | `--hf 1.05 --amount 50 --expires 14 --away 10 --passport 80`, on the corrected record: HF 1.4546 matched Aave's at block 56,969,301 (gap 2.0e-11); room 4 min at 1.05; size check fails, lowest replayed HF after the repay 0.9959, suggested repay 75 USDC; final REFUSE. (On Nov 11, on the old record: 0.9916 and 78 USDC.) | [`runs/2026-11-13-oct10-feeds.txt`](runs/2026-11-13-oct10-feeds.txt) (Nov 13, 2026; SERV not called in that run) |
 | Tolerance before we refuse to judge | 1e-6 relative | `src/aave.ts` `HF_TOLERANCE` [POLICY] |
+| The rebuild follows Aave v3.5.0 and later | HF = wadDiv(Σ collateral_i × LT_i, total debt) / 10000, debt rounded up. On `0x1c4E6eb654C8d7ddFB241831cB173b113E817a8C` (WETH + cbBTC) at block 36,654,126 it gives 1.0260549926172287, Aave's own number to the last digit | [Aave GenericLogic v3.5.0](https://github.com/aave-dao/aave-v3-origin/blob/v3.5.0/src/contracts/protocol/libraries/logic/GenericLogic.sol); `test/aave.test.ts` |
 | HF ratio identity used by the replay | HF(t)/HF(s) = x(t)/x(s) for USDC-only debt | `src/replay.ts` header; exactness tested in `test/replay.test.ts` |
 | Liquidation penalty on the demo loan | 4% (bonus 400 bps): a liquidator who repays $100 of debt takes $104 of cbBTC. Read from e-mode 10 "cbBTC Stablecoins" (LT 8500, bonus 10400 in Aave's units) at block 56,138,173 | `getEModeCategoryCollateralConfig(10)` via `positionView` in `src/service.ts` (Nov 11, 2026); outside e-mode, bits 32–47 of the reserve configuration (`src/aave.ts`) |
 | USDC variable borrow APR, used to grow the debt to expiry | Read live per check (5.03% on Nov 11, 2026) | `getReserveData(USDC).currentVariableBorrowRate`, `src/aave.ts` |
+
+**Correction, Nov 13, 2026.** Until this date `src/aave.ts` rebuilt the HF with Aave's pre-v3.5 formula: a rounded-down average liquidation threshold, and debt rounded down. On loans whose collateral legs have different thresholds that missed Aave's HF by more than the 1e-6 tolerance, so the check refused those loans as "cannot reproduce". The backtest below found it: on its first run, 123 of the 278 USDC-only loans failed the match at 12:00 UTC on Oct 10, 2025, every one with two or more collateral legs; after the fix, none did ([run](runs/2026-11-13-oct10-liquidations.txt)). Single-collateral loans, like the demo loan, were not affected.
+
+## Real liquidations on Oct 10, 2025
+
+Every Aave v3 Base borrower whose USDC debt was liquidated from Oct 10, 2025 12:00 UTC to Oct 11, 2025 12:00 UTC: LiquidationCall logs in blocks 36,654,127 to 36,697,326, and each loan read from Aave at block 36,654,126 (the last block before 12:00 UTC) and one block before its first liquidation. Source for every row: `npx tsx scripts/oct10-liquidations.ts` → `public/oct10-liquidations.json`, run Nov 13, 2026 ([run](runs/2026-11-13-oct10-liquidations.txt)); `test/backtest.test.ts` checks the summary against the rows.
+
+| Claim | Value |
+|---|---|
+| Borrowers liquidated / liquidations | 322 / 351 |
+| USDC repaid by liquidators | $5,124,812.26 |
+| Liquidation bonus the borrowers paid: collateral worth this much more than the USDC repaid, at Aave's prices (debtToCover × that collateral's bonus) | $345,765.39 in total; $83.67 per borrower at the median; bonus known for all 322 |
+| Debt one block before the first liquidation | median $2,677.84; 87 under $500 (DeFi Saver's minimum, below); 41 under $100 |
+| Aave's HF was still ≥ 1 one block before the first liquidation (liquidated in the block that made it liquidatable) | 139 of 322 |
+| HF at 12:00 UTC, of the 320 with debt then | median 1.1407; 83 below 1.10; 27 below 1.05 |
+| USDC was the only debt at 12:00 UTC (the loans Kite's auto-repay serves) | 278 of 322 |
+| Of those, replayable from the record | 221. Not replayable: 57, all for collateral with no recorded price path (52 AAVE, 4 EURC, 1 both); none for an HF mismatch |
+| Of those, same collateral and debt from noon to the liquidation (raw balances within 0.2%) | 173 |
+| Replay accuracy on those 173: replayed HF vs Aave's own HF one block before the liquidation | median 6.38e-5, max 9.25e-5; all 173 within 1e-4. The replay had all 173 liquidatable at or before their first liquidation |
+| Trigger 1.05 on those 173, on each loan's own replayed path | 157 crossed 1.05 after noon (16 were already below it). From 1.05 to liquidatable: fastest 240 s (4.0 min, `0x296C5a5C6753a7990A6537e1F9ACbC9B7950E6be`), median 1,230 s (20.5 min); under 5 minutes for 31 |
+| Trigger 1.10 on those 173 | 132 crossed (41 already below). Fastest 1,170 s (19.5 min), median 12,187 s (203.1 min); none under 5 minutes |
+| Trigger 1.20 on those 173 | 26 crossed (147 already below). Fastest 21,522 s (358.7 min), median 22,782 s (379.7 min) |
+| When | 277 of the 351 liquidations were from 21:00 to 21:59 UTC on Oct 10 |
+
+The room table above is a worst case over every start in the record; these are real loans on their own paths. The fastest 1.05 loan held only WETH, and its 240 s is longer than the ETH worst case of 208 s, as a real path must be.
 
 ## Policy (choices, not facts)
 
@@ -94,5 +127,5 @@ Corrections to WIN-DECISION.md:
 | Reply in the same thread: "there is nothing that can be done. Its up to every user to manage their position and keep them safe." | same |
 | Aave liquidations on Oct 10, 2025: more than $250M | [Aave blog: historical liquidations](https://aave.com/blog/historical-liquidations) |
 | Chaos Labs' figure: about $180M | forum thread above |
-| DeFi Saver automation needs at least $500 of debt | [DeFi Saver requirements](https://help.defisaver.com/automations/requirements-for-using-automation) |
+| DeFi Saver automation needs at least $500 of debt ("Minimum $500 in debt for Aave v3 on Arbitrum, Optimism and Base") | [DeFi Saver requirements](https://help.defisaver.com/automations/requirements-for-using-automation), re-read Nov 13, 2026 |
 | Revenue: price per check, paid over x402 from the user's Passport | **[POLICY: FILL]**, set after the SERV cost per check is read from the console. The x402 endpoint is not built. |

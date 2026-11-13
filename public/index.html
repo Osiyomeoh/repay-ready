@@ -16,7 +16,7 @@
       <div class="brand"><span class="mark" aria-hidden="true"></span>Repay Ready</div>
       <h1>Check your Kite auto-repay before you arm it.</h1>
       <p class="lede">
-        On Oct 10, 2025, an Aave loan at health factor 1.05 had <strong>3 minutes</strong> before it could be liquidated. Kite's repay has to land inside that
+        On Oct 10, 2025, an Aave loan at health factor 1.05 had <strong>3.5 minutes</strong> before it could be liquidated. Kite's repay has to land inside that
         window. Repay Ready replays your exact loan and trigger through Aave's own prices from that night, and tells you whether to arm, adjust or wait.
       </p>
     </header>
@@ -42,6 +42,7 @@
         <div class="stats" id="pos-stats"></div>
         <p class="fine" id="pos-fine"></p>
         <p class="msg warn" id="pos-warn" hidden></p>
+        <p class="msg warn" id="pos-night" hidden></p>
       </section>
 
       <section class="card" id="step-room" hidden aria-labelledby="h-room">
@@ -130,6 +131,26 @@
             <div class="cmd"><code id="cmd"></code><button type="button" class="ghost small" id="cmd-copy">Copy</button></div>
             <blockquote class="kite" id="kite-warning-2"></blockquote>
           </div>
+        </div>
+      </section>
+
+      <section class="card" id="night" aria-labelledby="h-night">
+        <h2 id="h-night">The real night, loan by loan</h2>
+        <p class="fine" id="night-intro">Loading the record of every USDC loan Aave liquidated on Base that night…</p>
+        <div class="stats" id="night-stats"></div>
+        <p class="fine" id="night-fine"></p>
+        <form id="night-form" class="row">
+          <label class="grow">
+            <span class="lbl">Was an address liquidated that night?</span>
+            <input id="night-address" name="night-address" autocomplete="off" spellcheck="false" placeholder="0x…" required />
+          </label>
+          <button type="submit" class="ghost" id="night-go">Look up</button>
+        </form>
+        <p class="hint" id="night-example-hint" hidden>Or <button type="button" class="link" id="night-example">show the fastest one</button>.</p>
+        <p class="msg" id="night-msg" role="status"></p>
+        <div id="night-row" hidden>
+          <div class="stats" id="night-row-stats"></div>
+          <div id="night-row-notes"></div>
         </div>
       </section>
 

@@ -98,7 +98,7 @@ Commands come from [passport-skills `defi-auto-repay/references/commands.md`](ht
 Rules this script keeps:
 - the person in the first 10 s;
 - the sponsor moment by 0:30;
-- one headline number ("3 minutes");
+- one headline number ("3.5 minutes");
 - a safe failure;
 - no third-party music or logos (use no music; record our own screens only, no BaseScan or Aave branding in frame).
 
@@ -110,7 +110,7 @@ Kite wording rules:
 | Time | On screen | You say |
 |---|---|---|
 | 0:00–0:10 | Black card, white text: "I lost all my life savings." · bruce235, Aave governance forum, Oct 17, 2025. Then: "Oct 10, 2025: more than $250M of Aave loans liquidated." | "On October 10, 2025, Aave liquidated more than 250 million dollars of loans. A week later, one borrower wrote: 'I lost all my life savings.'" |
-| 0:10–0:22 | The page, `?address=` demo loan. The Oct 10 card: "3 min from 1.05 to liquidatable, worst case." Drag the slider. | "Kite can now repay your Aave loan automatically, once, when your health factor drops. But that night, a loan at 1.05 had **3 minutes** before it could be liquidated." |
+| 0:10–0:22 | The page, `?address=` demo loan. The Oct 10 card: "4 min from 1.05 to liquidatable, worst case." Drag the slider. | "Kite can now repay your Aave loan automatically, once, when your health factor drops. But that night, a loan at 1.05 had **3.5 minutes** before it could be liquidated. This one had 4." |
 | 0:22–0:32 | The recorded run (`?sample`): the verdict card and the line "SERV Reasoning said … It agrees with the checks." | "Repay Ready replays your exact loan and trigger through that night, and SERV Reasoning has to agree with the code before it ever says ARM." |
 | 0:32–1:00 | The checks list: room against Kite's measured delay, repay size, Passport funds, expiry. The ADJUST button with the suggested amount. | "Nine checks. Is there room for Kite's measured speed? Is the repay big enough to clear the loan? Is your Passport funded until expiry? If a fix exists, it shows the fix. You press it; it never picks for you." |
 | 1:00–1:35 | Your kill-test recording: `create` → passkey approval → `armed` → one borrow → `fired` → the `npm run fire-delay` output with its seconds. | "We measured Kite on a real loan. HF crossed the trigger at block X; Kite's repay landed N seconds later. That number is what every check is held to, at twice the margin." |
@@ -124,7 +124,7 @@ Fill N, X and the cost from the runs before recording. Every spoken number must 
 
 ## 4. Submission write-up (Typeform "description"; also the repo's top)
 
-> On Oct 10, 2025, Aave liquidated more than $250M of loans, and one borrower wrote "I lost all my life savings." That night, a loan at health factor 1.05 had 3 minutes before it could be liquidated.
+> On Oct 10, 2025, Aave liquidated more than $250M of loans, and one borrower wrote "I lost all my life savings." That night, a loan at health factor 1.05 had 3.5 minutes before it could be liquidated.
 > Repay Ready checks your Kite auto-repay against that night before you arm it with your passkey, and SERV Reasoning and the code must agree before it says ARM.
 
 **What it does.** You paste an Aave v3 Base loan and type your Kite trigger (health factor, amount, expiry). Repay Ready then:
@@ -157,7 +157,8 @@ On ARM it gives the exact `kpass defi repay-trigger create` command and Kite's w
 - the nine checks and the SERV layer;
 - the page, the API and the CLI;
 - the fire-delay tool;
-- 63 tests.
+- the real-night backtest over all 322 borrowers liquidated on USDC debt that night, and the agent skill;
+- 70 tests.
 
 Prior work, declared: Loan Shield (my MIT repo, Morpho) gave the repay-to-target idea. The Aave version is new code.
 
@@ -165,10 +166,10 @@ Prior work, declared: Loan Shield (my MIT repo, Morpho) gave the repay-to-target
 
 ---
 
-## 5. X post (278 of 280 characters, with one link counted as 23)
+## 5. X post (280 of 280 characters, with one link counted as 23)
 
 ```
-Oct 10, 2025: an Aave loan at health factor 1.05 had 3 minutes before it could be liquidated.
+Oct 10, 2025: an Aave loan at health factor 1.05 had 3.5 minutes before it could be liquidated.
 
 Repay Ready replays your loan and Kite auto-repay through that night. SERV Reasoning and code must agree before it says ARM.
 
@@ -227,11 +228,13 @@ Attach the video and still 01. Tagging Kite: [FILL: Kite's official X handle; I 
 
 | # | File | Shows | Status |
 |---|---|---|---|
-| 1 | `ship/stills/01-oct10-3-minutes.png` | The Oct 10 replay: "3 min from 1.05 to liquidatable", the chart and the room table | done |
+| 1 | `ship/stills/01-oct10-replay.png` | The Oct 10 replay: "4 min from 1.05 to liquidatable" on the cbBTC demo loan, the chart and the room table | done (re-recorded Nov 13 on the corrected record) |
 | 2 | `ship/stills/04-verdict-recorded.png` | Verdict, SERV agreeing with the checks, every check spelled out | after the kill test + `record:sample` (`npm run stills` makes it) |
 | 3 | your terminal: `npm run fire-delay` output | Kite's measured fire delay, block by block | after the kill test (you screenshot it; our own output, no third-party logos) |
 | 4 | `ship/stills/02-loan-read-from-aave.png` | The loan read from Aave, matched to Aave's HF, 4% penalty | done |
 | 5 | `ship/stills/03-phone-390.png` | The same on a phone | done |
 | 6 | `ship/stills/05-verdict-phone-390.png` | The verdict on a phone | after `record:sample` |
+| 7 | `ship/stills/06-real-night.png` | The real night: 322 borrowers, $5,124,812 repaid by liquidators, $345,765 of bonus, and the fastest real loan from 1.05 to liquidatable (4 min, liquidated in the same block) | done Nov 13 |
+| 8 | `ship/stills/07-real-night-phone-390.png` | The same on a phone | done Nov 13 |
 
 Regenerate all of them with `npm run stills` (local) or `npm run stills -- --base <deployed url>`. The run also fails on any console error or sideways scroll, so it doubles as the 390/1280 check.

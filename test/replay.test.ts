@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 import { buildIndex, maxDrawdown, minRoom, replayFromHigh, simulate, type HfIndex, type PriceRecord } from "../src/replay.js";
 import type { Leg } from "../src/aave.js";
+import { FEEDS } from "../src/chain.js";
 
 const toy: HfIndex = { t: [0, 10, 20, 30, 40], x: [1, 0.98, 0.95, 0.9, 0.92], families: ["ETH", "USDC"] };
 
@@ -47,6 +48,12 @@ describe("Oct 10, 2025 record (data/oct10-2025.json)", () => {
   const rec = JSON.parse(readFileSync("data/oct10-2025.json", "utf8")) as PriceRecord;
   const from = Date.parse(rec.fromIso) / 1000;
 
+  it("records the feeds Aave's oracle used on Oct 10, 2025, not today's", () => {
+    for (const [family, feed] of Object.entries(FEEDS)) assert.equal(rec.feeds[family as keyof typeof FEEDS].feed, feed);
+    assert.equal(FEEDS.ETH, "0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70");
+    assert.equal(FEEDS.BTC, "0x64c911996D3c6aC71f9b455B1E8E7266BcbD848F");
+  });
+
   it("has ordered, phase-tagged rounds that start just before the window", () => {
     for (const f of Object.values(rec.feeds)) {
       assert.ok(f.rounds.length > 0);
@@ -56,11 +63,11 @@ describe("Oct 10, 2025 record (data/oct10-2025.json)", () => {
     }
   });
 
-  it("ETH/USD low was $3,469.0189 at 21:20:37 UTC", () => {
+  it("ETH/USD low on Aave's Oct 10 feed was $3,515.73425953 at 21:20:25 UTC", () => {
     const eth = rec.feeds.ETH.rounds;
     const low = eth.reduce((a, b) => (b.answer < a.answer ? b : a));
-    assert.equal(low.answer, 3469.0189);
-    assert.equal(new Date(low.updatedAt * 1000).toISOString(), "2025-10-10T21:20:37.000Z");
+    assert.equal(low.answer, 3515.73425953);
+    assert.equal(new Date(low.updatedAt * 1000).toISOString(), "2025-10-10T21:20:25.000Z");
   });
 
   const weth: Leg = {
@@ -79,11 +86,11 @@ describe("Oct 10, 2025 record (data/oct10-2025.json)", () => {
   it("a WETH loan's index tracks ETH/USD over USDC/USD exactly", () => {
     const r = buildIndex({ collateral: [weth], usdcOnly: true }, rec);
     assert.ok(r.ok);
-    const k = r.index.t.findIndex((t) => t === Date.UTC(2025, 9, 10, 21, 20, 37) / 1000);
+    const k = r.index.t.findIndex((t) => t === Date.UTC(2025, 9, 10, 21, 20, 25) / 1000);
     const eth0 = rec.feeds.ETH.rounds[0]!.answer;
     const usdc = rec.feeds.USDC.rounds.filter((u) => u.updatedAt <= r.index.t[k]!).at(-1)!.answer;
     const usdc0 = rec.feeds.USDC.rounds[0]!.answer;
-    assert.ok(Math.abs(r.index.x[k]! - 3469.0189 / eth0 / (usdc / usdc0)) < 1e-12);
+    assert.ok(Math.abs(r.index.x[k]! - 3515.73425953 / eth0 / (usdc / usdc0)) < 1e-12);
   });
 
   it("refuses collateral it has no price path for, and non-USDC debt", () => {

@@ -1,4 +1,6 @@
 // Spike: which price source does Aave's oracle use for each Base reserve?
+// It reads today's sources (the latest block). Aave used different ones on Oct 10, 2025;
+// scripts/fetch-oct10.ts reads and checks those.
 import { createPublicClient, http, parseAbi } from "viem";
 import { base } from "viem/chains";
 const c = createPublicClient({ chain: base, transport: http("https://base-rpc.publicnode.com") });

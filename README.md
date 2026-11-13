@@ -9,7 +9,7 @@ Check a Kite auto-repay on your Aave loan against the worst night on record, bef
 Open https://repay-ready.vercel.app/?address=0xDA0AFe3f64bc06b2cb4Fbf8eA98Bd7c4C907185B (a real cbBTC / USDC loan on Aave Base; the link reads it on open, or paste any address and press **Read loan**). You will see:
 - the loan's health factor rebuilt from Aave and matched to Aave's own number;
 - the liquidation penalty from Aave's config: on this loan, a liquidator who repays $100 of debt takes $104 of cbBTC;
-- the Oct 10, 2025 replay: **"3 min from 1.05 to liquidatable, worst case"**.
+- the Oct 10, 2025 replay: **"4 min from 1.05 to liquidatable, worst case"** (3.5 min for ETH collateral).
 
 Fill the trigger fields, press **Run the check**, and you get ARM, ADJUST or REFUSE with every check spelled out. A recorded run, with a real SERV answer, will be one click from the first screen (or `/?sample`) once `data/sample.json` is recorded.
 
@@ -21,7 +21,7 @@ npm run dev                      # http://localhost:3000, same deep links
 npm run check -- 0xDA0AFe3f64bc06b2cb4Fbf8eA98Bd7c4C907185B --hf 1.05 --amount 50 --expires 14 --away 10 --passport 80
 ```
 
-The check prints each result and the final verdict. On Nov 11, 2026 this input gave REFUSE: a 50 USDC repay left the replayed HF at 0.9916, and the check suggested 78 USDC instead. The loan is live, so your numbers will drift.
+The check prints each result and the final verdict. On Nov 13, 2026, on the corrected Oct 10 record, this input gave REFUSE: a 50 USDC repay left the replayed HF at 0.9959, and the check suggested 75 USDC instead ([run](runs/2026-11-13-oct10-feeds.txt)). The loan is live, so your numbers will drift.
 
 ## Who it is for
 
@@ -32,6 +32,14 @@ Kite's `kpass defi` now lets a borrower arm a one-shot auto-repay: when the heal
 - the repay is big enough to lift the loan clear.
 
 Nobody tells the borrower whether their trigger and amount meet both. Repay Ready does, before they arm it with their passkey.
+
+## The real night, loan by loan
+
+From Oct 10, 2025 12:00 UTC to Oct 11 12:00 UTC, liquidators repaid $5,124,812.26 of USDC debt for 322 borrowers on Aave v3 Base, and those borrowers paid $345,765.39 of liquidation bonus. For 139 of them, Aave's health factor was still at or above 1.00 one block before the liquidation: they were liquidated in the block that made them liquidatable, so a repay has to land before 1.00, not after.
+
+278 of the 322 had USDC as their only debt, the loans Kite's auto-repay serves. 173 of those kept the same collateral and debt from noon until they were liquidated. Replaying each one through the record matched Aave's own health factor one block before its liquidation to within 9.25e-5. On those real paths, 157 crossed 1.05 after noon, and from 1.05 to liquidatable took 20.5 minutes at the median, under 5 minutes for 31, and 4 minutes for the fastest. 87 of the 322 owed under $500, below [DeFi Saver's minimum for automation](https://help.defisaver.com/automations/requirements-for-using-automation) on Aave Base.
+
+Look an address up with `/?night=0x…`, or open `/?night` for the fastest loan. Rerun it with `npx tsx scripts/oct10-liquidations.ts`; every number is in [CLAIMS.md](CLAIMS.md). The backtest also caught a bug in the check, now fixed: the health-factor rebuild used Aave's pre-v3.5 formula and refused loans with mixed collateral ([CLAIMS](CLAIMS.md)).
 
 ## How the check decides
 
@@ -75,7 +83,7 @@ Repay Ready uses [SERV Reasoning](https://docs.openserv.ai/serv-reasoning/api/ch
 - **How it gets paid, inside Kite.** Kite Passport already makes paid HTTP calls over x402 in USDC, from a session the user approves with a total budget and a per-call cap ([`x402-execute`](https://github.com/gokite-ai/passport-skills/tree/main/x402-execute)). It also lists paid services in a catalog ([`kite-discovery`](https://github.com/gokite-ai/passport-skills/tree/main/kite-discovery)). So the Passport that will fund the repay can also pay for the check before arming, within a limit the user set.
   - Not built yet: the paid x402 endpoint.
   - The price is [POLICY: FILL].
-- **Built to be embedded.** `POST /api/check` and `npm run check -- … --json` return the same verdict, so a wallet or an agent can run the check right before `kpass defi repay-trigger create`.
+- **Built to be embedded.** `POST /api/check` and `npm run check -- … --json` return the same verdict, so a wallet or an agent can run the check right before `kpass defi repay-trigger create`. [`skills/repay-ready-check/SKILL.md`](skills/repay-ready-check/SKILL.md) is that step as an agent skill, in the style of Kite's passport-skills: it runs before `defi-auto-repay` and hands over the command only on ARM.
 
 ## What it never does
 
@@ -89,14 +97,15 @@ Repay Ready uses [SERV Reasoning](https://docs.openserv.ai/serv-reasoning/api/ch
 |---|---|
 | `npm run dev` | page and API on http://localhost:3000 |
 | `npm run check -- <address> --hf --amount --expires --away [--passport] [--json]` | the check from the terminal |
-| `npm test` | 63 tests; some read live Base, so they need network |
+| `npm test` | 70 tests; some read live Base, so they need network |
 | `npm run typecheck` | strict TypeScript over `src`, `api`, `scripts`, `test` and `public/app.js` |
 | `npx tsx scripts/oct10-table.ts` | the room table in CLAIMS.md |
+| `npx tsx scripts/oct10-liquidations.ts` | the real-night backtest: every USDC loan Aave liquidated on Base that night, to `public/oct10-liquidations.json` (needs archive RPCs) |
 | `npm run spike:serv` | one real SERV call of each kind (needs `SERV_API_KEY`) |
 | `npm run record:sample -- <address> --hf …` | saves a real run to `data/sample.json` for the recorded-run button |
 | `npm run fire-delay -- <address> --hf <trigger> --repay-tx <hash>` | measures Kite's fire delay from a fired trigger, using chain data only |
 
-Deep links: `/?address=0x…` reads that loan on open, and `/?sample` opens the recorded run.
+Deep links: `/?address=0x…` reads that loan on open, `/?sample` opens the recorded run, `/?night=0x…` looks an address up in the Oct 10 liquidation record, and `/?night` shows the fastest real loan.
 
 Environment variables (all optional; without the key every check ends in REFUSE):
 

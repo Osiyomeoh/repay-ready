@@ -38,9 +38,11 @@ interface Shot {
 
 const visible = (id: string) => `(() => { const e = document.getElementById(${JSON.stringify(id)}); return !!e && !e.hidden && e.offsetHeight > 0; })()`;
 const live: Shot[] = [
-  { name: "01-oct10-3-minutes", width: 1280, path: `/?address=${DEMO}`, ready: visible("step-room"), clip: ["#step-room"] },
+  { name: "01-oct10-replay", width: 1280, path: `/?address=${DEMO}`, ready: visible("step-room"), clip: ["#step-room"] },
   { name: "02-loan-read-from-aave", width: 1280, path: `/?address=${DEMO}`, ready: visible("step-room"), clip: ["header.top", "#step-position"] },
   { name: "03-phone-390", width: 390, path: `/?address=${DEMO}`, ready: visible("step-room"), clip: ["#step-position", "#room-caption"] },
+  { name: "06-real-night", width: 1280, path: "/?night", ready: visible("night-row"), clip: ["#night"] },
+  { name: "07-real-night-phone-390", width: 390, path: "/?night", ready: visible("night-row"), clip: ["#night"] },
 ];
 const recorded: Shot[] = [
   { name: "04-verdict-recorded", width: 1280, path: "/?sample", ready: visible("result"), clip: ["#step-check"] },

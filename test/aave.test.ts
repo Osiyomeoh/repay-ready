@@ -38,6 +38,23 @@ describe("rebuildHf (Aave GenericLogic maths)", () => {
     assert.equal(r.hf, 3.14);
   });
 
+  it("matches Aave to the last digit on a real WETH + cbBTC loan at Oct 10, 2025 12:00 UTC", () => {
+    // 0x1c4E6eb654C8d7ddFB241831cB173b113E817a8C at Base block 36,654,126, read from Aave by
+    // scripts/oct10-liquidations.ts. getUserAccountData gave HF 1.0260549926172287, average LT
+    // 8231 and debt $75,563.60999086. Rebuilding from the rounded 8231 gives 1.02599, off by 6e-5.
+    const r = rebuildHf(
+      [
+        leg({ raw: 18700297449727732635n, priceE8: 434671000000n, decimals: 18, ltBps: 8300 }),
+        leg({ raw: 10609524n, priceE8: 12163793069700n, decimals: 8, ltBps: 7800 }),
+      ],
+      [leg({ raw: 75578725736n, priceE8: 99980000n, decimals: 6, ltBps: 0 })],
+    );
+    assert.equal(r.hf, 1.0260549926172287);
+    assert.equal(r.avgLtBps, 8231);
+    assert.equal(r.collateralUsd, 94189.9753781);
+    assert.equal(r.debtUsd, 75563.60999086);
+  });
+
   it("no debt → no health factor", () => {
     const r = rebuildHf([leg({ raw: 1n, priceE8: 1n, decimals: 0, ltBps: 8000 })], []);
     assert.equal(r.hf, null);

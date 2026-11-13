@@ -2,7 +2,7 @@
 
 **One line:** Kite can repay your Aave loan once, automatically, when your health factor drops. Before you arm it with your passkey, Repay Ready replays your exact loan and trigger through Aave's own prices on Oct 10, 2025 and tells you whether the repay would have landed in time.
 
-**Headline number:** on Oct 10, 2025, a 1.05 trigger had **3 minutes** from firing to liquidatable, for both ETH and BTC collateral (CLAIMS.md).
+**Headline number:** on Oct 10, 2025, a 1.05 trigger had **3.5 minutes** from firing to liquidatable for ETH collateral, and 4 for BTC (CLAIMS.md). Until Nov 13, 2026 this said 3 minutes, from a record that used the wrong feeds (see CLAIMS.md, Correction).
 
 ## Flow
 

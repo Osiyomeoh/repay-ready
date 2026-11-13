@@ -118,6 +118,7 @@ function showView(v) {
           : "";
   $("pos-warn").hidden = !warn;
   $("pos-warn").textContent = warn;
+  noteNight(p.user);
   $("step-position").hidden = false;
 
   const canRun = p.hf !== null && p.usdcOnly && v.replay.ok && v.rooms.length > 0;
@@ -514,6 +515,145 @@ $("cmd-copy").addEventListener("click", async () => {
   setTimeout(() => ($("cmd-copy").textContent = "Copy"), 1500);
 });
 
+// ─── The real night, loan by loan ───────────────────────────────────────────
+// public/oct10-liquidations.json, written by scripts/oct10-liquidations.ts: every
+// borrower whose USDC debt Aave liquidated on Base from Oct 10, 2025 12:00 UTC to
+// Oct 11 12:00 UTC. The page only looks rows up; every number is in the file.
+
+const DEFI_SAVER_MIN = "https://help.defisaver.com/automations/requirements-for-using-automation";
+/** @type {Promise<any>} */
+const night = fetch("/oct10-liquidations.json").then((r) => {
+  if (!r.ok) throw new Error(`Couldn't load the Oct 10 record (${r.status}).`);
+  return r.json();
+});
+const whole = (/** @type {number} */ n) => fmt(n, 0);
+const utc = (/** @type {number} */ t) => `${new Date(t * 1000).toISOString().slice(0, 19).replace("T", " ")} UTC`;
+// Three significant digits, as stored: a "within" bound must not round below the real error.
+const pctOf = (/** @type {number} */ x) => `${(x * 100).toPrecision(3)}%`;
+const isAddress = (/** @type {string} */ a) => /^0x[0-9a-fA-F]{40}$/.test(a);
+/** @param {any} file @param {string} address */
+const findRow = (file, address) => file.borrowers.find((/** @type {any} */ b) => b.user.toLowerCase() === address.toLowerCase()) ?? null;
+/** @param {any} row */
+const totals = (row) => {
+  /** @type {any[]} */
+  const ls = row.liquidations;
+  const usdc = ls.reduce((s, l) => s + l.usdc, 0);
+  const bonus = ls.some((l) => l.bonusUsdc === null) ? null : ls.reduce((s, l) => s + l.bonusUsdc, 0);
+  return { n: ls.length, usdc, bonus };
+};
+/** @param {HTMLElement} box @param {string} k @param {string} v */
+const tile = (box, k, v) => box.append(h("div", { class: "stat" }, [h("div", { class: "k" }, [k]), h("div", { class: "v" }, [v])]));
+const outLink = (/** @type {string} */ href, /** @type {string} */ text) => h("a", { href, target: "_blank", rel: "noopener" }, [text]);
+
+night.then(
+  (file) => {
+    const s = file.summary;
+    const t105 = s.triggers.find((/** @type {any} */ t) => t.level === "1.05");
+    $("night-intro").textContent =
+      `From Oct 10, 2025 12:00 UTC to Oct 11 12:00 UTC, liquidators repaid USDC debt for ${whole(s.borrowers)} borrowers on Aave v3 Base. ` +
+      "Every row is read from Aave's own LiquidationCall events and from each loan's position on-chain.";
+    const box = $("night-stats");
+    tile(box, "Borrowers liquidated", whole(s.borrowers));
+    tile(box, "USDC repaid by liquidators", whole(s.usdcRepaid));
+    tile(box, "Liquidation bonus they paid (USDC)", whole(s.bonusUsdc.total));
+    tile(box, "Liquidated in the block they became liquidatable", `${whole(s.liquidatedInFirstBlock)} of ${whole(s.borrowers)}`);
+    if (t105?.minSeconds != null) tile(box, "Fastest real loan from health factor 1.05 to liquidatable", dur(t105.minSeconds));
+    const fine = $("night-fine");
+    fine.replaceChildren(
+      `For the ${whole(s.samePosition)} USDC-only loans that kept the same collateral and debt from noon until their liquidation, our replay matched Aave's own health factor one block before the liquidation to within ${pctOf(s.replayErr.max)}. `,
+      t105?.crossed
+        ? `${whole(t105.crossed)} of them crossed 1.05 after noon. From 1.05 to liquidatable took ${dur(t105.medianSeconds)} at the median, and under 5 minutes for ${whole(t105.underFiveMinutes)}. `
+        : "",
+      `${whole(s.preDebtUsd.underDefiSaverMin)} of the ${whole(s.borrowers)} owed under $500, below `,
+      outLink(DEFI_SAVER_MIN, "DeFi Saver's minimum for automation on Aave Base"),
+      ".",
+      s.bonusUsdc.legsMissing ? ` The bonus total leaves out ${whole(s.bonusUsdc.legsMissing)} borrowers whose collateral leg we could not price.` : "",
+    );
+    $("night-example-hint").hidden = !t105?.fastest;
+  },
+  (/** @type {Error} */ err) => say($("night-intro"), err.message, "err"),
+);
+
+/** @param {any} row */
+function showNightRow(row) {
+  const { n, usdc, bonus } = totals(row);
+  const box = $("night-row-stats");
+  box.replaceChildren();
+  tile(box, "Liquidations", whole(n));
+  tile(box, "USDC repaid by liquidators", fmt(usdc));
+  tile(box, "Liquidation bonus paid (USDC)", bonus === null ? "unknown" : fmt(bonus));
+  const notes = $("night-row-notes");
+  const line = (/** @type {(Node | string)[]} */ kids) => notes.append(h("p", { class: "fine" }, kids));
+  notes.replaceChildren();
+  line([
+    h("code", {}, [row.user]),
+    `: health factor ${row.noonHf === null ? "none (no debt)" : fmt(row.noonHf, 4)} at 12:00 UTC; ${usd(row.preDebtUsd)} of debt one block before its first liquidation. `,
+    row.usdcOnly
+      ? "USDC was its only debt: the kind of loan Kite's auto-repay serves."
+      : "It owed more than USDC; Kite's auto-repay needs USDC to be the only debt.",
+  ]);
+  if (row.notReplayable) line([`No replay: ${row.notReplayable}.`]);
+  else if (!row.samePosition) line(["Its collateral or debt changed between noon and the liquidation, so a replay of its noon loan is not its real path."]);
+  else {
+    const spans = ["1.1", "1.05"]
+      .filter((l) => row.room[l])
+      .map((l) => {
+        const r = row.room[l];
+        return `from ${l} at ${hhmmss(r.from)} to liquidatable at ${hhmmss(r.to)} UTC, ${dur(r.to - r.from)}`;
+      });
+    line([
+      `Replayed from its noon loan, within ${pctOf(row.replayErr)} of Aave's health factor one block before the liquidation. `,
+      spans.length ? `Its health factor went ${spans.join("; and ")}.` : "It was already below 1.05 at noon.",
+    ]);
+  }
+  if (row.preHf !== null && row.preHf >= 1)
+    line([`Aave's health factor was still ${fmt(row.preHf, 4)} one block before: it was liquidated in the block that made it liquidatable.`]);
+  for (const l of row.liquidations)
+    line([`${utc(l.time)}: ${fmt(l.usdc)} USDC repaid, ${l.collateral} taken. `, outLink(`https://basescan.org/tx/${l.tx}`, "Transaction")]);
+  $("night-row").hidden = false;
+}
+
+/** @param {string} address */
+function lookUpNight(address) {
+  $in("night-address").value = address;
+  night.then(
+    (file) => {
+      const row = findRow(file, address);
+      $("night-row").hidden = true;
+      if (!row) return say($("night-msg"), "Not liquidated on USDC debt on Aave v3 Base from Oct 10, 2025 12:00 UTC to Oct 11 12:00 UTC.");
+      say($("night-msg"), "");
+      showNightRow(row);
+    },
+    (/** @type {Error} */ err) => say($("night-msg"), err.message, "err"),
+  );
+}
+
+$("night-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const address = $in("night-address").value.trim();
+  if (!isAddress(address)) return say($("night-msg"), "Enter a 0x… address: 42 characters.", "err");
+  lookUpNight(address);
+});
+$("night-example").addEventListener("click", () => {
+  night.then((file) => lookUpNight(file.summary.triggers.find((/** @type {any} */ t) => t.level === "1.05").fastest)).catch(() => {});
+});
+
+/** After "Read loan": say so on the loan card if this address was liquidated that night. @param {string} user */
+function noteNight(user) {
+  const el = $("pos-night");
+  el.hidden = true;
+  night
+    .then((file) => {
+      const row = findRow(file, user);
+      if (!row || view?.position.user !== user) return;
+      const { n, usdc, bonus } = totals(row);
+      el.textContent = `This address was liquidated on Oct 10, 2025: ${n === 1 ? "once" : `${n} times`}, ${fmt(usdc)} USDC repaid by liquidators${bonus === null ? "" : `, ${fmt(bonus)} USDC of liquidation bonus paid`}. The record is below, under "The real night".`;
+      el.hidden = false;
+      lookUpNight(user);
+    })
+    .catch(() => {});
+}
+
 // ─── Recorded run ───────────────────────────────────────────────────────────
 
 /** @param {any} sample */
@@ -526,8 +666,15 @@ function setRecorded(sample) {
 }
 
 // Links for the README and the submission: ?address=0x… reads that loan live;
-// ?sample opens the recorded run.
+// ?sample opens the recorded run; ?night=0x… looks an address up in the Oct 10
+// record, and ?night alone shows the fastest real loan.
 const link = new URLSearchParams(location.search);
+if (link.has("night")) {
+  const a = link.get("night") ?? "";
+  if (isAddress(a)) lookUpNight(a);
+  else $("night-example").click();
+  $("night").scrollIntoView();
+}
 const linked = link.get("address");
 if (linked && /^0x[0-9a-fA-F]{40}$/.test(linked)) {
   $in("address").value = linked;

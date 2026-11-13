@@ -27,3 +27,9 @@ Same input through the page at 390 px (headless Chrome over CDP):
   SERV panel: "SERV Reasoning said REFUSE. It agrees with the checks. gpt-5.4-mini-2026-03-17 with Shadow Agent validation · 41.9 s · 1,600 tokens"
   Note: 41.9 s is the slowest verdict so far, against the 45 s SERV timeout in src/serv.ts (api/check.ts maxDuration 60 s).
   (One earlier page run in this session reached SERV but its result was lost when the script failed to save a screenshot; it is not counted here.)
+
+Second production run, Nov 13, 2026, after the SERV verdict timeout went from 45 s to 55 s (commit 5ba737f, deployment repay-ready-7o1x1fbp0)
+Same input through the page at 390 px:
+  overflow 0 px, console errors 0, kpass command shown: false
+  SERV message: "REFUSE: arming now would not reliably help because Kite’s fire delay has not been measured yet, so we cannot say it acts in time. Sign the ownership message with this wallet, and increase the repay to 75 USDC."
+  SERV panel: "SERV Reasoning said REFUSE. It agrees with the checks. gpt-5.4-mini-2026-03-17 with Shadow Agent validation · 5.7 s · 1,601 tokens"

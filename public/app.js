@@ -406,12 +406,12 @@ $("check-go").addEventListener("click", () => {
     ...(signed ?? {}),
   };
   void busyWhile(/** @type {HTMLButtonElement} */ ($("check-go")), "Checking…", async () => {
-    // SERV's verdict took 7.9 to 41.9 s in our runs (CLAIMS.md), so show that the wait is expected.
+    // SERV's verdict took 5.7 to 41.9 s in our runs (CLAIMS.md), so show that the wait is expected.
     const t0 = Date.now();
     const tick = () =>
       say(
         $("check-msg"),
-        `Reading Aave and replaying Oct 10, then SERV Reasoning drafts a verdict and its Shadow Agent validates it. That has taken 8 to 42 s in our tests. ${Math.round((Date.now() - t0) / 1000)} s so far.`,
+        `Reading Aave and replaying Oct 10, then SERV Reasoning drafts a verdict and its Shadow Agent validates it. That has taken up to 42 s in our tests. ${Math.round((Date.now() - t0) / 1000)} s so far.`,
       );
     tick();
     const timer = setInterval(tick, 1000);

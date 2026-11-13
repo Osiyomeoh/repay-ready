@@ -195,7 +195,8 @@ export async function servVerdict(report: Report): Promise<ServCall<ServVerdict>
         },
       },
     },
-    45_000,
+    // Slowest verdict so far: 41.9 s (CLAIMS.md). api/check.ts allows 60 s in all.
+    55_000,
   );
 }
 

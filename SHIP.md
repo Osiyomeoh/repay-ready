@@ -217,7 +217,7 @@ Attach the video and still 01. Tagging Kite: [FILL: Kite's official X handle; I 
 > - Prompt Guard's refusal arrives in `message.refusal`, so failing closed was one line.
 >
 > What would help:
-> 1. **Latency guidance.** The Shadow Agent verdict took 30.0 s on Nov 11, then 11.9 s, 7.9 s and 19.5 s on Nov 12 and 41.9 s on Nov 13, for 1.1k to 1.6k tokens per call; plain calls took 3.5 s. A documented p50/p95 per feature would help us set timeouts (we used 45 s).
+> 1. **Latency guidance.** The Shadow Agent verdict took 30.0 s on Nov 11, then 11.9 s, 7.9 s and 19.5 s on Nov 12 and 41.9 s on Nov 13, for 1.1k to 1.6k tokens per call; plain calls took 3.5 s. A documented p50/p95 per feature would help us set timeouts (we started at 45 s and raised it to 55 s after the 41.9 s run).
 > 2. **Cost in the response.** `usage` leaves out Prompt Guard and Shadow Agent, so we couldn't compute cost per call from the API. A `usage` breakdown or a cost field would make pricing a product on SERV much easier.
 > 3. **Credits.** The page says pre-registered participants get $5; my console showed $1 [check before sending].
 

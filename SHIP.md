@@ -20,8 +20,8 @@
 
 | # | When | You do | Then I do |
 |---|---|---|---|
-| 1 | Read Nov 14 | Still yours:<br>(b) find data collection: it may be on API Keys, which I don't open because it can show the key, or ask OpenServ;<br>(c) top up or redeem the $5 before judging if the live check should keep working;<br>(d) pick the price per check. | I read your signed-in console in Chrome (your "do 1-4"):<br>(a) **Cost:** 7 verdict calls billed $0.01 to $0.03 each, about $0.015 on average; plan readings $0.001 to $0.004. Now in CLAIMS, README and §3.<br>(b) **Data collection: not found.** Organization settings has only Name, Require 2FA, Members and Delete. Account, Billing and Integration don't have it either. OpenServ's docs don't mention it (searched in full Nov 14).<br>(c) **Credits:** $0.89 left of one $1 grant ("Credit grant", Serv Team, Nov 11). The $5 hasn't arrived; Billing has a "Redeem a code" button. At about $0.015 a check that is roughly 55 to 60 more checks, and every public check spends them. |
-| 1d | Your call | Price per check. | My proposal, not set anywhere: $0.05. That covers the worst single check so far ($0.03 verdict plus $0.004 plan reading) with room to spare, and is about 3× the average. |
+| 1 | Read Nov 14 | Still yours:<br>(b) find data collection: it may be on API Keys, which I don't open because it can show the key, or ask OpenServ;<br>(c) top up or redeem the $5 before judging if the live check should keep working. | I read your signed-in console in Chrome (your "do 1-4"):<br>(a) **Cost:** 7 verdict calls billed $0.01 to $0.03 each, about $0.015 on average; plan readings $0.001 to $0.004. Now in CLAIMS, README and §3.<br>(b) **Data collection: not found.** Organization settings has only Name, Require 2FA, Members and Delete. Account, Billing and Integration don't have it either. OpenServ's docs don't mention it (searched in full Nov 14).<br>(c) **Credits:** $0.89 left of one $1 grant ("Credit grant", Serv Team, Nov 11). The $5 hasn't arrived; Billing has a "Redeem a code" button. At about $0.015 a check that is roughly 55 to 60 more checks, and every public check spends them. |
+| 1d | Done Nov 14 | You chose $0.05 per check. | In CLAIMS (Revenue row), README "Who pays", the write-up (§4) and the video's closing line (§3). About 3× the average SERV cost; more than the dearest check so far ($0.03 verdict plus $0.004 plan reading). Nothing is charged until the x402 endpoint exists. |
 | 2 | Nov 12 (≈ 1 h, a few dollars on Base) | **The kill test.** Follow the runbook in §2 and screen-record it. | Run `npm run fire-delay`, set `KITE_FIRE_DELAY` in `src/kite-delay.ts`, rerun the tests, record the sample, then run `npm run stills` for the verdict stills. |
 | 3 | Done Nov 12 | You chose that I add the key. | Piped from `.env` into `vercel env add --sensitive`, never printed; redeployed. A live check on production: SERV said REFUSE and agreed with the checks (11.9 s); through the page at 390 px, 0 console errors and 0 overflow (`runs/2026-11-12-live-check.txt`). Public checks now spend your SERV credits (about 10 a minute per visitor). |
 | 4 | Done Nov 11 | You said "go". | Small local commits on `main`, authored by you, with no co-author trailer; not pushed. WIN-DECISION.md, GITHUB-CRAWL.md and every `.env` file stay out of the repo and out of the deploy (`.gitignore`, `.vercelignore`). |
@@ -126,9 +126,9 @@ Kite wording rules:
 | 1:05–1:35 | Your kill-test recording: `create` → passkey approval → `armed` → one borrow → `fired` → the `npm run fire-delay` output with its seconds. | "We measured Kite on a real loan. HF crossed the trigger at block X; Kite's repay landed N seconds later. That number is what every check is held to, at twice the margin." |
 | 1:35–1:55 | **Safe failure.** Sign for the demo loan with a wallet that doesn't own it → REFUSE, no command. Kite's warning on screen. | "If the loan isn't yours, it refuses, and there's no command to copy. Kite says it plainly: …" (read the warning). |
 | 1:55–2:15 | Your own loan, signed: ARM, the exact `kpass defi repay-trigger create` command, the warning. | "On my own loan it says ARM and gives me Kite's exact command. I still arm it myself, with my passkey. It fires once. It reduces liquidation risk. It doesn't remove it." |
-| 2:15–2:30 | The README "Who pays" lines and the repo URL. | "A check costs about a cent and a half in SERV. Next, the Passport that funds the repay can pay for each check over x402, inside a limit you set. Repay Ready: the repo is open." |
+| 2:15–2:30 | The README "Who pays" lines and the repo URL. | "A check costs SERV about a cent and a half; we'll charge five cents. Next, the Passport that funds the repay can pay for each check over x402, inside a limit you set. Repay Ready: the repo is open." |
 
-Fill N, X and the cost from the runs before recording. Every spoken number must be in CLAIMS.md.
+Fill N and X from the kill-test run before recording. Every spoken number must be in CLAIMS.md.
 
 **Plan B: you record before the kill test is done.** While `KITE_FIRE_DELAY` is `null`, every check ends REFUSE, with the room check reading "Kite's fire delay has not been measured yet, so we cannot say Kite acts in time." (`src/checks.ts`). Keep 0:00–0:30 and 1:35–1:55 from Plan A and swap these rows:
 
@@ -138,7 +138,7 @@ Fill N, X and the cost from the runs before recording. Every spoken number must 
 | 0:40–1:05 | The checks list, stopping on the room check's line above. | "Nine checks. The one that decides it: Kite's speed hasn't been measured on a real trigger yet. So it won't guess. Every check is held to that number, at twice the margin, once it's measured." |
 | 1:05–1:35 | "The real night, loan by loan": press "show the fastest one" and hold on its timeline. The tiles above it show 322 and $345,765; if you decide not to use those figures, start the shot at the lookup, below them. | "This is a real loan from that night. From health factor 1.05 to liquidatable took four minutes. A repay that lands after that is too late." |
 | 1:55–2:15 | Your own loan, signed: REFUSE, no command; read the deciding check off the screen. | "On my own loan it still says REFUSE and gives no command. Once Kite's speed is measured, this is where it can say ARM, and I'd still arm it myself, with my passkey. It fires once. It reduces liquidation risk. It doesn't remove it." |
-| 2:15–2:30 | As Plan A. | "A check costs about a cent and a half in SERV. Next, the Passport that funds the repay can pay for each check over x402, inside a limit you set. Repay Ready: the repo is open." |
+| 2:15–2:30 | As Plan A. | "A check costs SERV about a cent and a half; we'll charge five cents. Next, the Passport that funds the repay can pay for each check over x402, inside a limit you set. Repay Ready: the repo is open." |
 
 Plan B's "four minutes" is the fastest of the 157 real loans that crossed 1.05 (240 s, CLAIMS "Real liquidations"); "3.5 minutes" stays the one headline number.
 
@@ -171,7 +171,7 @@ On ARM it gives the exact `kpass defi repay-trigger create` command and Kite's w
 - Every check is held to Kite's fire delay, measured on a real trigger ([FILL: N s, tx]).
 - Kite's warning is shown verbatim.
 - You still arm it yourself, with your passkey.
-- Revenue fits Kite too: Passport pays for HTTP APIs over x402 from a session with a budget and a per-call cap, so a check can be paid by the same Passport that funds the repay.
+- Revenue fits Kite too: Passport pays for HTTP APIs over x402 from a session with a budget and a per-call cap, so a check can be paid by the same Passport that funds the repay. The price is $0.05 a check, against about $0.015 of SERV cost; the paid endpoint isn't built yet.
 
 **Built during the hackathon:** all of Repay Ready's code (Nov 11–15, 2026). That covers:
 - the Aave reader and the integer HF;

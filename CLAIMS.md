@@ -143,4 +143,4 @@ The room table above is a worst case over every start in the record; these are r
 | Aave liquidations on Oct 10, 2025: more than $250M | [Aave blog: historical liquidations](https://aave.com/blog/historical-liquidations) |
 | Chaos Labs' figure: about $180M | forum thread above |
 | DeFi Saver automation needs at least $500 of debt ("Minimum $500 in debt for Aave v3 on Arbitrum, Optimism and Base") | [DeFi Saver requirements](https://help.defisaver.com/automations/requirements-for-using-automation), re-read Nov 13, 2026 |
-| Revenue: price per check, paid over x402 from the user's Passport | **[POLICY: FILL]**, not set yet. It has to cover about $0.015 of SERV per check on average, $0.03 at most so far (above). The x402 endpoint is not built. |
+| Revenue: price per check, paid over x402 from the user's Passport | $0.05 per check [POLICY], set Nov 14, 2026. That is about 3× the average SERV cost per check (about $0.015, above) and more than the dearest check so far ($0.03 verdict plus $0.004 plan reading). The x402 endpoint is not built, so nothing is charged yet. |

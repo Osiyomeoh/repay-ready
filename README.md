@@ -82,7 +82,7 @@ Repay Ready uses [SERV Reasoning](https://docs.openserv.ai/serv-reasoning/api/ch
 - **What a check costs.** A check makes one SERV call, the verdict; reading a typed plan is one more. The SERV console billed the 7 verdicts run so far $0.01 to $0.03 each, about $0.015 on average, and the plan readings $0.001 to $0.004 ([CLAIMS](CLAIMS.md)). The Aave and Chainlink reads use public Base RPCs.
 - **How it gets paid, inside Kite.** Kite Passport already makes paid HTTP calls over x402 in USDC, from a session the user approves with a total budget and a per-call cap ([`x402-execute`](https://github.com/gokite-ai/passport-skills/tree/main/x402-execute)). It also lists paid services in a catalog ([`kite-discovery`](https://github.com/gokite-ai/passport-skills/tree/main/kite-discovery)). So the Passport that will fund the repay can also pay for the check before arming, within a limit the user set.
   - Not built yet: the paid x402 endpoint.
-  - The price is [POLICY: FILL].
+  - The price is $0.05 per check [POLICY], about 3× the average SERV cost. Nothing is charged until the endpoint exists.
 - **Built to be embedded.** `POST /api/check` and `npm run check -- … --json` return the same verdict, so a wallet or an agent can run the check right before `kpass defi repay-trigger create`. [`skills/repay-ready-check/SKILL.md`](skills/repay-ready-check/SKILL.md) is that step as an agent skill, in the style of Kite's passport-skills: it runs before `defi-auto-repay` and hands over the command only on ARM.
 
 ## What it never does

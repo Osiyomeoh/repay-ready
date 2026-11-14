@@ -16,6 +16,7 @@ export interface PageOptions {
   /** Device pixel ratio of the capture. */
   scale?: number;
   mobile?: boolean;
+  /** The page's theme, set the way the toggle saves it (localStorage "theme"); also emulated as prefers-color-scheme for SVGs. */
   theme?: "dark" | "light";
   /** Emulate prefers-reduced-motion, so charts are drawn in their final state. */
   reducedMotion?: boolean;
@@ -112,10 +113,12 @@ export async function launch(): Promise<Browser> {
     await metrics(o.width, o.height);
     await s("Emulation.setEmulatedMedia", {
       features: [
-        { name: "prefers-color-scheme", value: o.theme ?? "dark" },
+        { name: "prefers-color-scheme", value: o.theme ?? "light" },
         { name: "prefers-reduced-motion", value: o.reducedMotion ? "reduce" : "no-preference" },
       ],
     });
+    // The page head applies a saved theme before first paint, so this picks the theme without touching the page.
+    await s("Page.addScriptToEvaluateOnNewDocument", { source: `try { localStorage.setItem("theme", ${JSON.stringify(o.theme ?? "light")}); } catch {}` });
     const evaluate = async <T>(expression: string): Promise<T> => {
       const r = await s("Runtime.evaluate", { expression, returnByValue: true, awaitPromise: true });
       if (r.exceptionDetails) throw new Error(r.exceptionDetails.exception?.description ?? r.exceptionDetails.text);

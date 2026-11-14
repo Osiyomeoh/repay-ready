@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Repay Ready</title>
     <meta name="description" content="Check a Kite auto-repay on your Aave loan against the Oct 10, 2025 crash before you arm it." />
-    <meta name="theme-color" content="#0b1110" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#f4f6f3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#f8f7ff" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://repay-ready.vercel.app/" />
     <meta property="og:title" content="Repay Ready: check your Kite auto-repay before you arm it" />
@@ -51,7 +50,7 @@
           <a href="#night">The night</a>
           <a href="#how">How it decides</a>
         </div>
-        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Switch to light theme" title="Switch theme">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Switch to dark theme" title="Switch theme">
           <svg viewBox="0 0 24 24" aria-hidden="true" class="i-sun">
             <circle cx="12" cy="12" r="4.2" />
             <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" />
@@ -110,6 +109,220 @@
         </figure>
       </div>
     </header>
+
+    <section class="why" id="why" aria-labelledby="h-why">
+      <div class="band-in">
+        <p class="eyebrow">Why check first</p>
+        <h2 id="h-why" class="band-h">A crash doesn't wait for you to wake up</h2>
+        <ol class="why-strip">
+          <li class="why-card">
+            <svg class="ill" viewBox="0 0 360 240" aria-hidden="true">
+              <defs>
+                <linearGradient id="ill-dusk" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#4c1d95" />
+                  <stop offset="0.6" stop-color="#a855f7" />
+                  <stop offset="1" stop-color="#fb923c" />
+                </linearGradient>
+              </defs>
+              <rect class="sc-wall" width="360" height="240" />
+              <rect class="sc-floor" y="196" width="360" height="44" />
+              <ellipse class="sc-rug" cx="236" cy="215" rx="116" ry="10" />
+              <rect x="26" y="28" width="96" height="84" rx="10" fill="url(#ill-dusk)" />
+              <path class="sc-moon" d="M98 40A10 10 0 0 0 98 60A13 13 0 0 1 98 40Z" />
+              <circle class="sc-star" cx="44" cy="44" r="1.6" />
+              <circle class="sc-star s2" cx="62" cy="58" r="1.2" />
+              <circle class="sc-star s3" cx="108" cy="78" r="1.3" />
+              <rect x="26" y="28" width="96" height="84" rx="10" class="sc-frame" />
+              <path d="M74 28v84M26 70h96" class="sc-frame" />
+              <rect class="sc-furn-2" x="14" y="112" width="120" height="6" rx="3" />
+
+              <rect class="sc-furn" x="104" y="120" width="9" height="46" rx="4.5" />
+              <rect class="sc-furn" x="102" y="156" width="56" height="9" rx="4.5" />
+              <rect class="sc-furn" x="127" y="165" width="7" height="27" />
+              <rect class="sc-furn" x="110" y="190" width="42" height="6" rx="3" />
+
+              <path class="sc-arm-far" d="M140 118L166 138L198 141" />
+              <circle class="sc-skin" cx="200" cy="141" r="4.6" />
+              <path class="sc-leg" d="M136 158L178 161L176 192" />
+              <path class="sc-shoe" d="M176 194H189" />
+              <path class="sc-neck" d="M145 104L149 94" />
+              <path class="sc-torso" d="M134 150L144 116" />
+              <circle class="sc-skin" cx="154" cy="82" r="15" />
+              <circle class="sc-skin" cx="168.5" cy="85" r="3.4" />
+              <path class="sc-hair" d="M139 86C134 70 144 60 157 61C168 62 174 69 172 76C165 72 158 73 154 78C152 83 150 90 146 95C143 94 140 90 139 86Z" />
+              <circle class="sc-hair" cx="161" cy="81" r="1.6" />
+              <path class="sc-arm" d="M144 122L172 141L204 143" />
+              <circle class="sc-skin" cx="206" cy="143" r="5" />
+
+              <rect class="sc-furn-2" x="150" y="146" width="190" height="9" rx="4.5" />
+              <rect class="sc-furn-2" x="166" y="155" width="7" height="41" />
+              <rect class="sc-furn-2" x="320" y="155" width="7" height="41" />
+              <rect class="sc-dev" x="194" y="141" width="58" height="5" rx="2.5" />
+              <path class="sc-lid" d="M250 142L263 105" />
+              <rect class="sc-mug" x="288" y="126" width="16" height="20" rx="4" />
+              <path class="sc-mug-h" d="M304 131c6 0 6 10 0 10" />
+              <path class="sc-steam" d="M293 120c-3-4 3-6 0-10M300 120c-3-4 3-6 0-10" />
+
+              <rect class="sc-ui-shadow" x="190" y="22" width="152" height="72" rx="11" />
+              <rect class="sc-ui" x="188" y="18" width="152" height="72" rx="11" />
+              <path class="sc-ui" d="M248 89h12l-5 9z" />
+              <text class="sc-label" x="200" y="35">health factor</text>
+              <rect class="sc-chip-arm" x="290" y="25" width="40" height="15" rx="7.5" />
+              <text class="sc-chip-arm-t" x="310" y="35.6" text-anchor="middle">armed</text>
+              <path class="sc-trig" d="M200 62H328" />
+              <path class="sc-liq" d="M200 80H328" />
+              <path class="sc-hf" pathLength="1" d="M200 49L214 47L226 50L240 46L254 50L268 47L282 51L298 48L314 50L328 48" />
+            </svg>
+            <div class="why-body">
+              <p class="why-k">Evening</p>
+              <h3>You arm a trigger and log off</h3>
+              <p>
+                Kite's auto-repay fires once, when your health factor falls below the trigger you set. Its repay has to land before the health factor falls
+                below 1.00, when the loan can be liquidated.
+              </p>
+            </div>
+          </li>
+          <li class="why-card">
+            <svg class="ill night" viewBox="0 0 360 240" aria-hidden="true">
+              <defs>
+                <linearGradient id="ill-night" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#0b0930" />
+                  <stop offset="1" stop-color="#2e2675" />
+                </linearGradient>
+                <radialGradient id="ill-phone-glow">
+                  <stop offset="0" stop-color="#c4b5fd" stop-opacity="0.75" />
+                  <stop offset="1" stop-color="#c4b5fd" stop-opacity="0" />
+                </radialGradient>
+              </defs>
+              <rect class="sn-wall" width="360" height="240" />
+              <rect class="sn-floor" y="196" width="360" height="44" />
+              <rect x="244" y="24" width="94" height="74" rx="10" fill="url(#ill-night)" />
+              <path class="sc-moon" d="M318 36A10 10 0 0 0 318 56A13 13 0 0 1 318 36Z" />
+              <circle class="sc-star" cx="262" cy="40" r="1.5" />
+              <circle class="sc-star s2" cx="284" cy="70" r="1.2" />
+              <circle class="sc-star s3" cx="300" cy="44" r="1.1" />
+              <circle class="sc-star" cx="326" cy="84" r="1.2" />
+              <rect x="244" y="24" width="94" height="74" rx="10" class="sn-frame" />
+              <path d="M291 24v74M244 61h94" class="sn-frame" />
+
+              <circle class="sn-glow" cx="44" cy="132" r="34" fill="url(#ill-phone-glow)" />
+              <rect class="sn-furn-2" x="14" y="146" width="62" height="8" rx="4" />
+              <rect class="sn-furn" x="18" y="154" width="54" height="42" rx="5" />
+              <path class="sn-line" d="M24 175H66" />
+              <circle class="sn-knob" cx="45" cy="166" r="2" />
+              <rect class="sn-phone" x="37" y="121" width="15" height="25" rx="3.5" />
+              <rect class="sn-screen" x="39.5" y="124.5" width="10" height="18" rx="1.5" />
+              <path class="sn-screen-line" d="M41 128L44 131L45.5 135L48 141" />
+
+              <rect class="sn-furn" x="84" y="104" width="13" height="92" rx="6" />
+              <rect class="sn-mattress" x="90" y="148" width="254" height="22" rx="9" />
+              <rect class="sn-furn" x="90" y="168" width="254" height="12" rx="5" />
+              <rect class="sn-furn" x="100" y="180" width="8" height="16" />
+              <rect class="sn-furn" x="328" y="180" width="8" height="16" />
+              <ellipse class="sn-slipper" cx="206" cy="199" rx="9" ry="3.6" />
+              <ellipse class="sn-slipper" cx="224" cy="201" rx="9" ry="3.6" />
+              <ellipse class="sn-pillow" cx="128" cy="144" rx="30" ry="10" />
+              <path class="sn-hair" d="M113 140C108 128 116 117 128 116C134 116 138 118 140 121C132 120 124 124 121 132C120 136 118 140 113 140Z" />
+              <circle class="sn-skin" cx="130" cy="131" r="13.5" />
+              <path class="sn-hair" d="M117 131C116 122 123 116 131 117C127 120 123 125 122 133Z" />
+              <path class="sn-eye" d="M131 131.5q3.5 2.5 7 0" />
+              <g class="sn-breathe">
+                <path class="sn-blanket" d="M140 152C143 134 164 127 192 130C232 134 264 127 298 133C322 137 338 143 342 153V170H140Z" />
+                <path class="sn-fold" d="M196 140C226 143 262 138 296 142" />
+                <path class="sn-sleeve" d="M150 141C164 139 178 140 192 143" />
+                <circle class="sn-skin" cx="196" cy="143.5" r="4.8" />
+              </g>
+              <g class="sn-zs">
+                <text class="sn-z z1" x="150" y="118">z</text>
+                <text class="sn-z z2" x="180" y="104">z</text>
+                <text class="sn-z z3" x="198" y="86">Z</text>
+              </g>
+
+              <rect class="sn-ui" x="14" y="16" width="160" height="88" rx="11" />
+              <path class="sn-ui" d="M40 103h12l-6 13z" />
+              <text class="sn-label" x="26" y="33">21:20 UTC</text>
+              <path class="sn-trig" d="M26 56H162" />
+              <path class="sn-liq" d="M26 86H162" />
+              <path class="sn-hf" pathLength="1" d="M26 42L42 44L54 43L66 48L78 52L88 51L98 60L110 68L122 82L134 92L148 89L162 86" />
+              <circle class="sn-dot d1" cx="126" cy="94" r="2.2" />
+              <circle class="sn-dot d2" cx="136" cy="96" r="2.2" />
+              <circle class="sn-dot d3" cx="146" cy="94" r="2.2" />
+            </svg>
+            <div class="why-body">
+              <p class="why-k">Night</p>
+              <h3>The market falls while you sleep</h3>
+              <p>
+                On Oct 10, 2025, ETH hit its low at 21:20:25 UTC, 19.12% under noon. That was 10:20 pm in London and Lagos and 5:20 am in Singapore. 304 of the
+                night's 351 USDC liquidations on Aave v3 Base fell between 20:50 and 21:40 UTC.
+              </p>
+            </div>
+          </li>
+          <li class="why-card">
+            <svg class="ill" viewBox="0 0 360 240" aria-hidden="true">
+              <defs>
+                <linearGradient id="ill-day" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#7dd3fc" />
+                  <stop offset="1" stop-color="#e0f2fe" />
+                </linearGradient>
+              </defs>
+              <rect class="sc-wall" width="360" height="240" />
+              <rect class="sc-floor" y="196" width="360" height="44" />
+              <ellipse class="sc-rug" cx="122" cy="215" rx="72" ry="9" />
+              <rect x="22" y="28" width="84" height="74" rx="10" fill="url(#ill-day)" />
+              <circle class="sc-sun" cx="84" cy="50" r="10" />
+              <path class="sc-cloud" d="M36 84a8 8 0 0 1 14-6a10 10 0 0 1 19 2a6 6 0 0 1 1 11H38a6 6 0 0 1-2-7Z" />
+              <rect x="22" y="28" width="84" height="74" rx="10" class="sc-frame" />
+              <path d="M64 28v74M22 65h84" class="sc-frame" />
+
+              <path class="sc-pot" d="M22 178h30l-4 18H26Z" />
+              <path class="sc-leaf" d="M37 178C30 166 26 156 28 146C34 154 38 166 37 178Z" />
+              <path class="sc-leaf l2" d="M37 178C40 162 46 152 54 148C54 160 46 172 37 178Z" />
+              <path class="sc-leaf l3" d="M37 178C34 164 36 150 40 140C44 152 42 166 37 178Z" />
+
+              <path class="sc-leg" d="M114 150L110 193" />
+              <path class="sc-leg" d="M128 150L134 193" />
+              <path class="sc-shoe" d="M102 195H115" />
+              <path class="sc-shoe" d="M132 195H145" />
+              <path class="sc-arm-far" d="M112 106L106 132L132 122" />
+              <circle class="sc-skin" cx="134" cy="121" r="4.6" />
+              <path class="sc-neck" d="M122 94L124 84" />
+              <path class="sc-torso" d="M121 112V140" />
+              <circle class="sc-skin" cx="126" cy="70" r="15" />
+              <circle class="sc-skin" cx="140.5" cy="74" r="3.4" />
+              <path class="sc-hair" d="M111 74C106 58 116 48 129 49C140 50 146 57 144 64C137 60 130 61 126 66C124 71 122 78 118 83C115 82 112 78 111 74Z" />
+              <circle class="sc-hair" cx="133" cy="70" r="1.6" />
+              <rect class="sc-dev" x="138" y="100" width="15" height="25" rx="3.5" transform="rotate(14 145 112)" />
+              <rect class="sc-phone-screen" x="140.5" y="103" width="10" height="18" rx="1.5" transform="rotate(14 145 112)" />
+              <path class="sc-arm" d="M128 106L130 134L146 120" />
+              <circle class="sc-skin" cx="148" cy="119" r="5" />
+
+              <rect class="sc-ui-shadow" x="178" y="22" width="168" height="140" rx="13" />
+              <rect class="sc-ui" x="176" y="18" width="168" height="140" rx="13" />
+              <path class="sc-ui" d="M178 106l-12 6 12 6z" />
+              <text class="sc-label" x="190" y="36">Oct 10, 2025, replayed</text>
+              <path class="sc-trig" d="M190 70H330" />
+              <path class="sc-liq" d="M190 102H330" />
+              <path class="sc-hf" pathLength="1" d="M190 50L206 52L218 51L230 56L242 60L252 59L262 70L274 80L286 96L296 108L312 104L330 100" />
+              <path class="sc-head" d="M190 46V112" />
+              <rect class="sc-chip-arm" x="190" y="126" width="34" height="18" rx="9" />
+              <text class="sc-chip-arm-t" x="207" y="138.2" text-anchor="middle">ARM</text>
+              <rect class="sc-chip-adj" x="230" y="126" width="46" height="18" rx="9" />
+              <text class="sc-chip-adj-t" x="253" y="138.2" text-anchor="middle">ADJUST</text>
+              <rect class="sc-chip-ref" x="282" y="126" width="46" height="18" rx="9" />
+              <text class="sc-chip-ref-t" x="305" y="138.2" text-anchor="middle">REFUSE</text>
+            </svg>
+            <div class="why-body">
+              <p class="why-k">Before you arm it</p>
+              <h3>So check it first</h3>
+              <p>
+                Repay Ready replays your loan and trigger through every price Aave used that night, then answers ARM, ADJUST or REFUSE. When it can't be sure,
+                the answer is REFUSE.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
 
     <main class="flow" id="flow">
       <section class="card step" id="step-address" aria-labelledby="h-address" data-step="1">

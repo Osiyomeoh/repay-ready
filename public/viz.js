@@ -69,14 +69,13 @@ export function colors() {
   };
 }
 
-/** Calls fn whenever the effective theme changes (toggle or OS setting). @param {() => void} fn */
+/** Calls fn whenever the theme changes (the toggle). @param {() => void} fn */
 export function onThemeChange(fn) {
   themeListeners.push(fn);
 }
 /** @type {(() => void)[]} */
 const themeListeners = [];
 export const themeChanged = () => themeListeners.forEach((f) => f());
-window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", themeChanged);
 
 /** Debounced resize, only when the width changes (phones fire resize on scroll). @param {() => void} fn */
 export function onWidthChange(fn) {

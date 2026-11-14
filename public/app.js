@@ -66,8 +66,8 @@ initNight(nightP);
 // ─── Theme ──────────────────────────────────────────────────────────────────
 
 const root = document.documentElement;
-const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
-const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : darkQuery.matches);
+// Light unless the visitor picked dark with the toggle (saved in localStorage, applied in the page head).
+const isDark = () => root.dataset.theme === "dark";
 const themeBtn = $("theme-toggle");
 const syncThemeBtn = () => themeBtn.setAttribute("aria-label", isDark() ? "Switch to light theme" : "Switch to dark theme");
 syncThemeBtn();
@@ -939,7 +939,7 @@ function drawPipe() {
 drawPipe();
 onWidthChange(drawPipe);
 
-reveal(document.querySelectorAll(".panel, .how-list li, .pipe, #night-stats"));
+reveal(document.querySelectorAll(".why-card, .panel, .how-list li, .pipe, #night-stats"));
 
 // ─── Recorded run ───────────────────────────────────────────────────────────
 

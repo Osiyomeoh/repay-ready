@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!-- Repay Ready's mark: a health factor stepping down, oracle update by oracle update, toward the liquidation line. -->
   <style>
-    .bg { fill: #0d7c71; }
+    .bg { fill: #7c3aed; }
     .ink { stroke: #ffffff; }
     .dot { fill: #ffffff; }
     @media (prefers-color-scheme: dark) {
-      .bg { fill: #34d3be; }
-      .ink { stroke: #03211d; }
-      .dot { fill: #03211d; }
+      .bg { fill: #a78bfa; }
+      .ink { stroke: #160b33; }
+      .dot { fill: #160b33; }
     }
   </style>
   <rect class="bg" width="32" height="32" rx="9" />

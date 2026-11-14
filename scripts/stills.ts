@@ -1,6 +1,6 @@
 // Gallery stills, plus the 390 px / 1280 px check, in one run.
 //
-// Usage: npm run stills -- [--base http://localhost:3000] [--out ship/stills] [--theme dark|light]
+// Usage: npm run stills -- [--base http://localhost:3000] [--out ship/stills] [--theme light|dark]
 //
 // For each shot it opens headless Chrome (scripts/cdp.ts) at a real viewport
 // (390 px is emulated as a phone), waits for the page's own state rather than
@@ -18,11 +18,11 @@ const { values } = parseArgs({
   options: {
     base: { type: "string", default: "http://localhost:3000" },
     out: { type: "string", default: "ship/stills" },
-    theme: { type: "string", default: "dark" },
+    theme: { type: "string", default: "light" },
   },
 });
 const base = values.base.replace(/\/$/, "");
-const theme = values.theme === "light" ? "light" : "dark";
+const theme = values.theme === "dark" ? "dark" : "light";
 const DEMO = "0xDA0AFe3f64bc06b2cb4Fbf8eA98Bd7c4C907185B";
 
 interface Shot {
@@ -47,6 +47,7 @@ const live: Shot[] = [
   { name: "03-phone-390", width: 390, path: `/?address=${DEMO}`, ready: visible("step-room"), clip: ["#step-position", "#room-caption"] },
   { name: "06-real-night", width: 1280, path: "/?night", ready: visible("night-row"), clip: ["#night"] },
   { name: "07-real-night-phone-390", width: 390, path: "/?night", ready: visible("night-row"), clip: ["#night"] },
+  { name: "08-why-check-first", width: 1280, path: "/", ready: heroReady, clip: ["#why"], pad: 0 },
 ];
 const recorded: Shot[] = [
   { name: "04-verdict-recorded", width: 1280, path: "/?sample", ready: visible("result"), clip: ["#step-check"] },

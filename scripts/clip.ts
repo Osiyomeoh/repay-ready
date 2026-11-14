@@ -1,7 +1,7 @@
 // The hero replay as video: ship/clips/oct10-replay-1080p.mp4 (1920x1080) and
 // ship/clips/oct10-replay-square.mp4 (1080x1080), rendered frame by frame.
 //
-// Usage: npm run clip -- [--base http://localhost:3000] [--out ship/clips] [--theme dark|light] [--fps 30]
+// Usage: npm run clip -- [--base http://localhost:3000] [--out ship/clips] [--theme light|dark] [--fps 30]
 //
 // Each frame is the page's own drawing: the script loads the site in headless
 // Chrome (scripts/cdp.ts), hides everything but the replay figure, then calls
@@ -21,12 +21,12 @@ const { values } = parseArgs({
   options: {
     base: { type: "string", default: "http://localhost:3000" },
     out: { type: "string", default: "ship/clips" },
-    theme: { type: "string", default: "dark" },
+    theme: { type: "string", default: "light" },
     fps: { type: "string", default: "30" },
   },
 });
 const base = values.base.replace(/\/$/, "");
-const theme = values.theme === "light" ? "light" : "dark";
+const theme = values.theme === "dark" ? "dark" : "light";
 const FPS = Number(values.fps);
 if (!Number.isInteger(FPS) || FPS < 1 || FPS > 60) throw new Error(`--fps must be a whole number from 1 to 60, not ${values.fps}`);
 const FFMPEG = process.env.FFMPEG ?? "ffmpeg";

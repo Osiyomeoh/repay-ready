@@ -237,6 +237,7 @@ Attach the video and still 01. Tagging Kite: [FILL: Kite's official X handle; I 
 | 6 | `ship/stills/05-verdict-phone-390.png` | The verdict on a phone | after `record:sample` |
 | 7 | `ship/stills/06-real-night.png` | The real night: 322 borrowers, $5,124,812 repaid by liquidators, $345,765 of bonus, and the fastest real loan from 1.05 to liquidatable (4 min, liquidated in the same block) | done Nov 13 |
 | 8 | `ship/stills/07-real-night-phone-390.png` | The same on a phone | done Nov 13 |
+| 9 | `ship/stills/08-why-check-first.png` | Why check first: three drawn scenes (arm a trigger in the evening, the Oct 10 crash at night, check before arming), with the ETH low and the liquidation count from the record | done Nov 14 |
 
 Regenerate all of them with `npm run stills` (local) or `npm run stills -- --base <deployed url>`. The run also fails on any console error or sideways scroll, so it doubles as the 390/1280 check.
 

@@ -1,107 +1,74 @@
-/* Repay Ready. Dark is the night of Oct 10; light is the same palette by day.
-   Colours carry meaning everywhere: teal = your loan / the accent, amber = the
-   trigger (Kite fires), coral = liquidatable, ETH periwinkle, BTC orange. */
+/* Repay Ready. Bright by default (light), with a dark theme on the toggle.
+   Colours carry meaning everywhere: violet = your loan / the accent, amber = the
+   trigger (Kite fires), rose = liquidatable, ETH blue, BTC orange. */
 :root {
-  --bg: #f4f6f3;
-  --bg-2: #eaeeea;
+  --bg: #f8f7ff;
+  --bg-2: #f0eefc;
   --card: #ffffff;
-  --card-2: #f7f9f7;
-  --ink: #0f1a17;
-  --muted: #55645f;
-  --faint: #8a9893;
-  --line: #dde3df;
-  --line-2: #cbd4cf;
-  --accent: #0d7c71;
-  --accent-2: #12a594;
+  --card-2: #f9f8ff;
+  --ink: #16122e;
+  --muted: #5a5577;
+  --faint: #8e89aa;
+  --line: #e7e4f4;
+  --line-2: #d6d1ec;
+  --accent: #7c3aed;
+  --accent-2: #a855f7;
   --accent-ink: #ffffff;
-  --accent-soft: #e0f3ef;
-  --arm: #0f7a43;
-  --arm-bg: #e3f4ea;
-  --adjust: #8a5a00;
-  --adjust-bg: #fdf1d8;
-  --refuse: #b42318;
-  --refuse-bg: #fdeceb;
-  --unknown: #475467;
-  --unknown-bg: #eef0f3;
-  --code-bg: #eff2f0;
-  --chart-line: #0d7c71;
-  --chart-t: #b7791f;
-  --chart-liq: #c8382b;
-  --eth: #5b6ee1;
-  --btc: #d9822b;
-  --dot: #c8382b;
-  --glow: rgba(13, 124, 113, 0.14);
-  --shadow: 0 1px 0 rgba(15, 26, 23, 0.04), 0 8px 30px -12px rgba(15, 26, 23, 0.18);
+  --accent-soft: #f1eaff;
+  --arm: #059669;
+  --arm-bg: #e6f8f0;
+  --adjust: #b45309;
+  --adjust-bg: #fff3d9;
+  --refuse: #e11d48;
+  --refuse-bg: #ffe8ee;
+  --unknown: #4b5168;
+  --unknown-bg: #eff0f7;
+  --code-bg: #f3f1fc;
+  --chart-line: #7c3aed;
+  --chart-t: #d97706;
+  --chart-liq: #f43f5e;
+  --eth: #2563eb;
+  --btc: #ea580c;
+  --dot: #f43f5e;
+  --sky: #0ea5e9;
+  --glow: rgba(124, 58, 237, 0.16);
+  --shadow: 0 1px 0 rgba(22, 18, 46, 0.04), 0 10px 32px -12px rgba(76, 29, 149, 0.22);
   --radius: 18px;
   --ease: cubic-bezier(0.2, 0.75, 0.2, 1);
   color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0a100f;
-    --bg-2: #0d1513;
-    --card: #111a18;
-    --card-2: #15201d;
-    --ink: #e8efec;
-    --muted: #96a6a0;
-    --faint: #63736d;
-    --line: #1f2c29;
-    --line-2: #2b3b37;
-    --accent: #34d3be;
-    --accent-2: #2bb3a6;
-    --accent-ink: #03211d;
-    --accent-soft: #0f2c27;
-    --arm: #4fd68f;
-    --arm-bg: #0f2a1c;
-    --adjust: #f2b84f;
-    --adjust-bg: #2e230c;
-    --refuse: #ff8c80;
-    --refuse-bg: #351513;
-    --unknown: #b4bfcc;
-    --unknown-bg: #1f262d;
-    --code-bg: #0c1312;
-    --chart-line: #34d3be;
-    --chart-t: #f2b84f;
-    --chart-liq: #ff7b6e;
-    --eth: #8fa0ff;
-    --btc: #ffa94d;
-    --dot: #ff7b6e;
-    --glow: rgba(52, 211, 190, 0.16);
-    --shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 18px 50px -20px rgba(0, 0, 0, 0.7);
-    color-scheme: dark;
-  }
-}
 :root[data-theme="dark"] {
-  --bg: #0a100f;
-  --bg-2: #0d1513;
-  --card: #111a18;
-  --card-2: #15201d;
-  --ink: #e8efec;
-  --muted: #96a6a0;
-  --faint: #63736d;
-  --line: #1f2c29;
-  --line-2: #2b3b37;
-  --accent: #34d3be;
-  --accent-2: #2bb3a6;
-  --accent-ink: #03211d;
-  --accent-soft: #0f2c27;
-  --arm: #4fd68f;
-  --arm-bg: #0f2a1c;
-  --adjust: #f2b84f;
-  --adjust-bg: #2e230c;
-  --refuse: #ff8c80;
-  --refuse-bg: #351513;
-  --unknown: #b4bfcc;
-  --unknown-bg: #1f262d;
-  --code-bg: #0c1312;
-  --chart-line: #34d3be;
-  --chart-t: #f2b84f;
-  --chart-liq: #ff7b6e;
-  --eth: #8fa0ff;
-  --btc: #ffa94d;
-  --dot: #ff7b6e;
-  --glow: rgba(52, 211, 190, 0.16);
-  --shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 18px 50px -20px rgba(0, 0, 0, 0.7);
+  --bg: #0b0a1a;
+  --bg-2: #100e24;
+  --card: #15132d;
+  --card-2: #1b1838;
+  --ink: #f2f0ff;
+  --muted: #aaa5ca;
+  --faint: #716c94;
+  --line: #262249;
+  --line-2: #35305f;
+  --accent: #a78bfa;
+  --accent-2: #c084fc;
+  --accent-ink: #160b33;
+  --accent-soft: #241a4d;
+  --arm: #34d399;
+  --arm-bg: #0d2a22;
+  --adjust: #fbbf24;
+  --adjust-bg: #2e2310;
+  --refuse: #fb7185;
+  --refuse-bg: #3a1222;
+  --unknown: #c3c7d9;
+  --unknown-bg: #222238;
+  --code-bg: #0f0d22;
+  --chart-line: #a78bfa;
+  --chart-t: #fbbf24;
+  --chart-liq: #fb7185;
+  --eth: #60a5fa;
+  --btc: #fb923c;
+  --dot: #fb7185;
+  --sky: #38bdf8;
+  --glow: rgba(167, 139, 250, 0.2);
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 18px 50px -20px rgba(0, 0, 0, 0.75);
   color-scheme: dark;
 }
 
@@ -302,14 +269,6 @@ svg {
 :root:not([data-theme]) .i-moon {
   display: block;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) .i-sun {
-    display: block;
-  }
-  :root:not([data-theme]) .i-moon {
-    display: none;
-  }
-}
 
 /* ─── Hero ─────────────────────────────────────────────────────────────── */
 .hero {
@@ -317,8 +276,9 @@ svg {
   overflow: hidden;
   border-bottom: 1px solid var(--line);
   background:
-    radial-gradient(900px 420px at 85% -10%, var(--glow), transparent 70%),
-    radial-gradient(700px 360px at -10% 110%, color-mix(in srgb, var(--dot) 9%, transparent), transparent 70%), var(--bg);
+    radial-gradient(900px 440px at 88% -12%, var(--glow), transparent 70%),
+    radial-gradient(640px 380px at 40% -20%, color-mix(in srgb, var(--sky) 12%, transparent), transparent 70%),
+    radial-gradient(720px 380px at -10% 110%, color-mix(in srgb, var(--dot) 12%, transparent), transparent 70%), var(--bg);
 }
 .hero::before {
   /* a faint grid, like chart paper */
@@ -798,6 +758,525 @@ input[type="range"]:active::-webkit-slider-thumb {
   color: var(--ink);
   font-family: "Geist Mono", ui-monospace, monospace;
   font-weight: 600;
+}
+
+/* ─── Why check first: three drawn scenes (original SVG, no photos) ─────────── */
+.why {
+  --ill-wall: #f1ecff;
+  --ill-floor: #e4dcfd;
+  --ill-furn: #cbbff5;
+  --ill-furn-2: #a796ea;
+  --ill-top: #7c3aed;
+  --ill-top-2: #5b21b6;
+  --ill-pants: #2e2a55;
+  --ill-shoe: #16122e;
+  --ill-dev: #3b3563;
+  --ill-ui: #ffffff;
+  --ill-ui-line: #e2ddf5;
+  --ill-skin: #9a5b34;
+  --ill-hair: #22172b;
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+}
+:root[data-theme="dark"] .why {
+  --ill-wall: #1d1a3d;
+  --ill-floor: #25214d;
+  --ill-furn: #3a3470;
+  --ill-furn-2: #4c4590;
+  --ill-top: #8b5cf6;
+  --ill-top-2: #6d28d9;
+  --ill-pants: #0f0d24;
+  --ill-shoe: #07061a;
+  --ill-dev: #9b95c9;
+  --ill-ui: #15132d;
+  --ill-ui-line: #35305f;
+  --ill-hair: #120c18;
+}
+.why-strip {
+  list-style: none;
+  margin: 26px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+@media (max-width: 900px) {
+  .why-strip {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 540px;
+  }
+}
+.why-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  min-width: 0;
+}
+.ill {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  border-bottom: 1px solid var(--line);
+}
+.why-body {
+  padding: 16px 18px 20px;
+}
+.why-k {
+  margin: 0 0 6px;
+  font:
+    600 0.74rem "Geist Mono",
+    ui-monospace,
+    monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.why-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+  letter-spacing: -0.015em;
+}
+.why-card p:last-child {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Scene parts. Day scenes follow the theme; the night scene is always night. */
+.sc-wall {
+  fill: var(--ill-wall);
+}
+.sc-floor {
+  fill: var(--ill-floor);
+}
+.sc-rug {
+  fill: var(--ill-furn);
+  opacity: 0.55;
+}
+.sc-furn {
+  fill: var(--ill-furn);
+}
+.sc-furn-2 {
+  fill: var(--ill-furn-2);
+}
+.sc-frame {
+  fill: none;
+  stroke: var(--ill-furn-2);
+  stroke-width: 5;
+}
+.sc-moon {
+  fill: #fde68a;
+}
+.sc-star {
+  fill: #ffffff;
+  animation: twinkle 3.2s ease-in-out infinite;
+}
+.sc-star.s2 {
+  animation-delay: -1.1s;
+}
+.sc-star.s3 {
+  animation-delay: -2.2s;
+}
+@keyframes twinkle {
+  50% {
+    opacity: 0.25;
+  }
+}
+.sc-sun {
+  fill: #fcd34d;
+}
+.sc-cloud {
+  fill: #ffffff;
+  animation: drift 9s ease-in-out infinite;
+}
+@keyframes drift {
+  50% {
+    transform: translateX(6px);
+  }
+}
+.sc-skin {
+  fill: var(--ill-skin);
+}
+.sc-hair {
+  fill: var(--ill-hair);
+}
+.sc-neck,
+.sc-torso,
+.sc-arm,
+.sc-arm-far,
+.sc-leg,
+.sc-shoe {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sc-neck {
+  stroke: var(--ill-skin);
+  stroke-width: 9;
+}
+.sc-torso {
+  stroke: var(--ill-top);
+  stroke-width: 32;
+}
+.sc-arm {
+  stroke: var(--ill-top);
+  stroke-width: 11;
+}
+.sc-arm-far {
+  stroke: var(--ill-top-2);
+  stroke-width: 10;
+}
+.sc-leg {
+  stroke: var(--ill-pants);
+  stroke-width: 14;
+}
+.sc-shoe {
+  stroke: var(--ill-shoe);
+  stroke-width: 7;
+}
+.sc-dev {
+  fill: var(--ill-dev);
+}
+.sc-lid {
+  fill: none;
+  stroke: var(--ill-dev);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.sc-phone-screen {
+  fill: #c4b5fd;
+}
+.sc-mug {
+  fill: var(--btc);
+}
+.sc-mug-h {
+  fill: none;
+  stroke: var(--btc);
+  stroke-width: 3;
+}
+.sc-steam {
+  fill: none;
+  stroke: var(--ill-furn-2);
+  stroke-width: 2;
+  stroke-linecap: round;
+  animation: steam 3s ease-in-out infinite;
+}
+@keyframes steam {
+  50% {
+    opacity: 0.2;
+    transform: translateY(-3px);
+  }
+}
+.sc-pot {
+  fill: var(--btc);
+}
+.sc-leaf {
+  fill: #16a34a;
+  transform-origin: 37px 178px;
+  animation: sway 6s ease-in-out infinite;
+}
+.sc-leaf.l2 {
+  fill: #22c55e;
+  animation-delay: -2s;
+}
+.sc-leaf.l3 {
+  fill: #15803d;
+  animation-delay: -4s;
+}
+@keyframes sway {
+  50% {
+    transform: rotate(3deg);
+  }
+}
+.sc-ui {
+  fill: var(--ill-ui);
+}
+.sc-ui-shadow {
+  fill: var(--accent);
+  opacity: 0.12;
+}
+.sc-label {
+  font:
+    600 10px "Geist Mono",
+    ui-monospace,
+    monospace;
+  fill: var(--muted);
+}
+.sc-trig,
+.sc-liq {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-dasharray: 4 3;
+}
+.sc-trig {
+  stroke: var(--chart-t);
+}
+.sc-liq {
+  stroke: var(--chart-liq);
+}
+.sc-hf {
+  fill: none;
+  stroke: var(--chart-line);
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  animation: ill-draw 6s var(--ease) infinite;
+}
+@keyframes ill-draw {
+  0% {
+    stroke-dashoffset: 1;
+  }
+  55%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+/* The playhead rests at the end of the night, which is where reduced motion leaves it. */
+.sc-head {
+  stroke: var(--accent);
+  stroke-width: 1.4;
+  transform: translateX(140px);
+  animation: playhead 6s var(--ease) infinite;
+}
+@keyframes playhead {
+  0% {
+    transform: translateX(0);
+  }
+  55%,
+  100% {
+    transform: translateX(140px);
+  }
+}
+.sc-chip-arm,
+.sc-chip-adj,
+.sc-chip-ref {
+  stroke-width: 1;
+}
+.sc-chip-arm {
+  fill: var(--arm-bg);
+  stroke: var(--arm);
+}
+.sc-chip-adj {
+  fill: var(--adjust-bg);
+  stroke: var(--adjust);
+}
+.sc-chip-ref {
+  fill: var(--refuse-bg);
+  stroke: var(--refuse);
+}
+.sc-chip-arm-t,
+.sc-chip-adj-t,
+.sc-chip-ref-t {
+  font:
+    600 9px "Geist Mono",
+    ui-monospace,
+    monospace;
+}
+.sc-chip-arm-t {
+  fill: var(--arm);
+}
+.sc-chip-adj-t {
+  fill: var(--adjust);
+}
+.sc-chip-ref-t {
+  fill: var(--refuse);
+}
+
+.sn-wall {
+  fill: #1c1840;
+}
+.sn-floor {
+  fill: #161233;
+}
+.sn-frame {
+  fill: none;
+  stroke: #3d3678;
+  stroke-width: 5;
+}
+.sn-furn {
+  fill: #3d3678;
+}
+.sn-furn-2 {
+  fill: #4d4592;
+}
+.sn-line {
+  stroke: #2c2660;
+  stroke-width: 2;
+}
+.sn-knob {
+  fill: #6e66b8;
+}
+.sn-glow {
+  animation: glow 2.4s ease-in-out infinite;
+}
+@keyframes glow {
+  50% {
+    opacity: 0.45;
+  }
+}
+.sn-phone {
+  fill: #0b0920;
+}
+.sn-screen {
+  fill: #2a2463;
+}
+.sn-screen-line {
+  fill: none;
+  stroke: #fb7185;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sn-slipper {
+  fill: #38bdf8;
+}
+.sn-mattress {
+  fill: #4a4290;
+}
+.sn-pillow {
+  fill: #cfc8f5;
+}
+.sn-skin {
+  fill: #8a5230;
+}
+.sn-hair {
+  fill: #120c18;
+}
+.sn-eye {
+  fill: none;
+  stroke: #120c18;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+.sn-blanket {
+  fill: #6d4fd6;
+}
+.sn-fold {
+  fill: none;
+  stroke: #8b72e8;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.sn-sleeve {
+  fill: none;
+  stroke: #38bdf8;
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+.sn-breathe {
+  transform-origin: 240px 170px;
+  animation: breathe 4.5s ease-in-out infinite;
+}
+@keyframes breathe {
+  50% {
+    transform: scaleY(1.035);
+  }
+}
+.sn-z {
+  font:
+    700 13px "Geist",
+    system-ui,
+    sans-serif;
+  fill: #c4b5fd;
+  animation: zfloat 3.6s ease-in-out infinite;
+}
+.sn-z.z2 {
+  font-size: 16px;
+  animation-delay: -1.2s;
+}
+.sn-z.z3 {
+  font-size: 19px;
+  animation-delay: -2.4s;
+}
+@keyframes zfloat {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  30%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+.sn-ui {
+  fill: #0f0c26;
+  stroke: #3d3678;
+  stroke-width: 1;
+}
+.sn-label {
+  font:
+    600 10px "Geist Mono",
+    ui-monospace,
+    monospace;
+  fill: #c4b5fd;
+}
+.sn-trig,
+.sn-liq {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-dasharray: 4 3;
+}
+.sn-trig {
+  stroke: #fbbf24;
+}
+.sn-liq {
+  stroke: #fb7185;
+}
+.sn-hf {
+  fill: none;
+  stroke: #a78bfa;
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  animation: ill-draw 6s var(--ease) infinite;
+}
+.sn-dot {
+  fill: #fb7185;
+  animation: pop 6s var(--ease) infinite;
+}
+.sn-dot.d2 {
+  animation-name: pop2;
+}
+.sn-dot.d3 {
+  animation-name: pop3;
+}
+@keyframes pop {
+  0%,
+  44% {
+    opacity: 0;
+  }
+  48%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes pop2 {
+  0%,
+  48% {
+    opacity: 0;
+  }
+  52%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes pop3 {
+  0%,
+  52% {
+    opacity: 0;
+  }
+  56%,
+  100% {
+    opacity: 1;
+  }
 }
 
 /* ─── The flow ─────────────────────────────────────────────────────────── */
@@ -1538,15 +2017,15 @@ svg text.halo {
   display: flex;
   gap: 10px;
   align-items: flex-start;
-  background: #0a0f0e;
-  color: #d6f5ef;
+  background: #14112b;
+  color: #ece9ff;
   border: 1px solid var(--line-2);
   border-radius: 12px;
   padding: 12px 14px;
   margin: 10px 0 14px;
 }
 .cmd-prompt {
-  color: #34d3be;
+  color: #c4b5fd;
   font-family: "Geist Mono", ui-monospace, monospace;
 }
 .cmd code {
@@ -1556,8 +2035,8 @@ svg text.halo {
   overflow-wrap: anywhere;
 }
 .cmd button.ghost {
-  color: #d6f5ef;
-  border-color: #2b3b37;
+  color: #ece9ff;
+  border-color: #35305f;
 }
 
 /* ─── Wide bands: the night, how it decides ───────────────────────────── */

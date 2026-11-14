@@ -20,11 +20,12 @@
 
 | # | When | You do | Then I do |
 |---|---|---|---|
-| 1 | Now (10 min) | In the SERV console, three things:<br>(a) read the cost of the Nov 11 spike calls under Usage → Cost / Activity, and send me the dollar figure;<br>(b) turn on data collection (Payrun's Edition 01 notes put it at console.openserv.ai/settings/organization; confirm the setting exists; OpenServ's docs don't mention it, searched in full on Nov 14);<br>(c) check whether the $5 pre-registration credits arrived (you saw $1). | Put the real cost per check into CLAIMS, README and the write-up, replacing the $0.0025 to $0.0030 floor. Propose a price per check for you to approve. |
+| 1 | Read Nov 14 | Still yours:<br>(b) find data collection: it may be on API Keys, which I don't open because it can show the key, or ask OpenServ;<br>(c) top up or redeem the $5 before judging if the live check should keep working;<br>(d) pick the price per check. | I read your signed-in console in Chrome (your "do 1-4"):<br>(a) **Cost:** 7 verdict calls billed $0.01 to $0.03 each, about $0.015 on average; plan readings $0.001 to $0.004. Now in CLAIMS, README and §3.<br>(b) **Data collection: not found.** Organization settings has only Name, Require 2FA, Members and Delete. Account, Billing and Integration don't have it either. OpenServ's docs don't mention it (searched in full Nov 14).<br>(c) **Credits:** $0.89 left of one $1 grant ("Credit grant", Serv Team, Nov 11). The $5 hasn't arrived; Billing has a "Redeem a code" button. At about $0.015 a check that is roughly 55 to 60 more checks, and every public check spends them. |
+| 1d | Your call | Price per check. | My proposal, not set anywhere: $0.05. That covers the worst single check so far ($0.03 verdict plus $0.004 plan reading) with room to spare, and is about 3× the average. |
 | 2 | Nov 12 (≈ 1 h, a few dollars on Base) | **The kill test.** Follow the runbook in §2 and screen-record it. | Run `npm run fire-delay`, set `KITE_FIRE_DELAY` in `src/kite-delay.ts`, rerun the tests, record the sample, then run `npm run stills` for the verdict stills. |
 | 3 | Done Nov 12 | You chose that I add the key. | Piped from `.env` into `vercel env add --sensitive`, never printed; redeployed. A live check on production: SERV said REFUSE and agreed with the checks (11.9 s); through the page at 390 px, 0 console errors and 0 overflow (`runs/2026-11-12-live-check.txt`). Public checks now spend your SERV credits (about 10 a minute per visitor). |
 | 4 | Done Nov 11 | You said "go". | Small local commits on `main`, authored by you, with no co-author trailer; not pushed. WIN-DECISION.md, GITHUB-CRAWL.md and every `.env` file stay out of the repo and out of the deploy (`.gitignore`, `.vercelignore`). |
-| 5 | Nov 13 | Make the repo public when you're ready: `gh repo edit Osiyomeoh/repay-ready --visibility public --accept-visibility-change-consequences`. | **Done Nov 12, with your OK:** created private at https://github.com/Osiyomeoh/repay-ready and pushed `main`; the first CI run passed (typecheck, format check, 63 tests). |
+| 5 | Done Nov 14 | You said "do 1-4". | Made https://github.com/Osiyomeoh/repay-ready public; it opens without signing in. Before that I checked the history: the only env file ever committed is `.env.example`, with empty keys. Created private on Nov 12 and pushed `main`; the first CI run passed (typecheck, format check, 63 tests). |
 | 6 | Nov 13–14 | Record the video (§3), using the kill-test recording from step 2 (Plan A), or Plan B if the kill test isn't done by then. | Check every spoken number against CLAIMS. |
 | 7 | **Nov 15, 12:00 UTC** | **Feature freeze.** From here, fixes only. | |
 | 8 | Nov 15 | Post on X (§5) with the video and still 01. | |
@@ -125,7 +126,7 @@ Kite wording rules:
 | 1:05–1:35 | Your kill-test recording: `create` → passkey approval → `armed` → one borrow → `fired` → the `npm run fire-delay` output with its seconds. | "We measured Kite on a real loan. HF crossed the trigger at block X; Kite's repay landed N seconds later. That number is what every check is held to, at twice the margin." |
 | 1:35–1:55 | **Safe failure.** Sign for the demo loan with a wallet that doesn't own it → REFUSE, no command. Kite's warning on screen. | "If the loan isn't yours, it refuses, and there's no command to copy. Kite says it plainly: …" (read the warning). |
 | 1:55–2:15 | Your own loan, signed: ARM, the exact `kpass defi repay-trigger create` command, the warning. | "On my own loan it says ARM and gives me Kite's exact command. I still arm it myself, with my passkey. It fires once. It reduces liquidation risk. It doesn't remove it." |
-| 2:15–2:30 | The README "Who pays" lines and the repo URL. | "A check costs about [FILL] in SERV. Next, the Passport that funds the repay can pay for each check over x402, inside a limit you set. Repay Ready: the repo is open." |
+| 2:15–2:30 | The README "Who pays" lines and the repo URL. | "A check costs about a cent and a half in SERV. Next, the Passport that funds the repay can pay for each check over x402, inside a limit you set. Repay Ready: the repo is open." |
 
 Fill N, X and the cost from the runs before recording. Every spoken number must be in CLAIMS.md.
 
@@ -137,7 +138,7 @@ Fill N, X and the cost from the runs before recording. Every spoken number must 
 | 0:40–1:05 | The checks list, stopping on the room check's line above. | "Nine checks. The one that decides it: Kite's speed hasn't been measured on a real trigger yet. So it won't guess. Every check is held to that number, at twice the margin, once it's measured." |
 | 1:05–1:35 | "The real night, loan by loan": press "show the fastest one" and hold on its timeline. The tiles above it show 322 and $345,765; if you decide not to use those figures, start the shot at the lookup, below them. | "This is a real loan from that night. From health factor 1.05 to liquidatable took four minutes. A repay that lands after that is too late." |
 | 1:55–2:15 | Your own loan, signed: REFUSE, no command; read the deciding check off the screen. | "On my own loan it still says REFUSE and gives no command. Once Kite's speed is measured, this is where it can say ARM, and I'd still arm it myself, with my passkey. It fires once. It reduces liquidation risk. It doesn't remove it." |
-| 2:15–2:30 | As Plan A; if the console cost isn't read yet, drop the cost sentence. | "Next, the Passport that funds the repay can pay for each check over x402, inside a limit you set. Repay Ready: the repo is open." |
+| 2:15–2:30 | As Plan A. | "A check costs about a cent and a half in SERV. Next, the Passport that funds the repay can pay for each check over x402, inside a limit you set. Repay Ready: the repo is open." |
 
 Plan B's "four minutes" is the fastest of the 157 real loans that crossed 1.05 (240 s, CLAIMS "Real liquidations"); "3.5 minutes" stays the one headline number.
 
@@ -215,9 +216,9 @@ Attach the video and still 01. Tagging Kite: its official X account is **@GoKite
 | Description: what, who, problem, how | §4 | ready except [FILL]s |
 | Project URL | https://repay-ready.vercel.app | ready |
 | X post URL | after step 8 | blocked: post |
-| One additional URL | https://github.com/Osiyomeoh/repay-ready | ready once you make it public |
+| One additional URL | https://github.com/Osiyomeoh/repay-ready | ready (public since Nov 14) |
 | Logo upload | `ship/logo.png` (512×512, the page's mark) | ready |
-| "Is data collection enabled for your project?" | Yes, once you turn it on in the SERV console (step 1b) | todo (you) |
+| "Is data collection enabled for your project?" | [FILL]: the setting isn't on the console pages I could open (step 1b); answer once you've found it or asked OpenServ | todo (you) |
 | Team type | Solo | todo (confirm) |
 | Experience building AI agents | your answer | todo (you) |
 | Country | Nigeria | todo (confirm) |
@@ -240,8 +241,8 @@ Attach the video and still 01. Tagging Kite: its official X account is **@GoKite
 >
 > What would help:
 > 1. **Latency guidance.** The Shadow Agent verdict took 30.0 s on Nov 11, then 11.9 s, 7.9 s and 19.5 s on Nov 12 and 41.9 s then 5.7 s on Nov 13, for 1.1k to 1.6k tokens per call; plain calls took 3.5 s. A documented p50/p95 per feature would help us set timeouts (we started at 45 s and raised it to 55 s after the 41.9 s run).
-> 2. **Cost in the response.** `usage` leaves out Prompt Guard and Shadow Agent, so we couldn't compute cost per call from the API. A `usage` breakdown or a cost field would make pricing a product on SERV much easier.
-> 3. **Credits.** The page says pre-registered participants get $5; my console showed $1 [check before sending].
+> 2. **Cost in the response.** `usage` leaves out Prompt Guard and Shadow Agent, so we couldn't compute cost per call from the API. The console billed each verdict $0.01 to $0.03, against $0.0014 to $0.0020 for its tokens at list price, with no breakdown. A cost field, or a breakdown with more than cent precision, would make pricing a product on SERV much easier.
+> 3. **Credits.** The page says pre-registered participants get $5; my console shows one $1 credit grant (Nov 11) and nothing since. Is the $5 still coming, or is it a code to redeem?
 
 ---
 

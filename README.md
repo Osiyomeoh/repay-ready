@@ -79,7 +79,7 @@ Repay Ready uses [SERV Reasoning](https://docs.openserv.ai/serv-reasoning/api/ch
 ## Who pays for a check
 
 - **What is at stake.** The page reads each loan's liquidation penalty from Aave's own config. On the demo loan (e-mode "cbBTC Stablecoins") it is 4%: a liquidator who repays $100 of the debt takes $104 of the cbBTC. That penalty, on every dollar liquidated, is what a late or undersized repay costs.
-- **What a check costs.** One plan reading plus one verdict comes to about $0.0025 to $0.0030 of SERV tokens at the listed prices, over the measured runs ([CLAIMS](CLAIMS.md)). That is a floor: Prompt Guard and Shadow Agent are billed on top, so the full cost is [FILL: console]. The Aave and Chainlink reads use public Base RPCs.
+- **What a check costs.** A check makes one SERV call, the verdict; reading a typed plan is one more. The SERV console billed the 7 verdicts run so far $0.01 to $0.03 each, about $0.015 on average, and the plan readings $0.001 to $0.004 ([CLAIMS](CLAIMS.md)). The Aave and Chainlink reads use public Base RPCs.
 - **How it gets paid, inside Kite.** Kite Passport already makes paid HTTP calls over x402 in USDC, from a session the user approves with a total budget and a per-call cap ([`x402-execute`](https://github.com/gokite-ai/passport-skills/tree/main/x402-execute)). It also lists paid services in a catalog ([`kite-discovery`](https://github.com/gokite-ai/passport-skills/tree/main/kite-discovery)). So the Passport that will fund the repay can also pay for the check before arming, within a limit the user set.
   - Not built yet: the paid x402 endpoint.
   - The price is [POLICY: FILL].

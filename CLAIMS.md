@@ -30,6 +30,7 @@ The hero draws `public/oct10-prices.json`, which `npx tsx scripts/oct10-prices.t
 |---|---|---|
 | Rounds drawn | ETH/USD 670, BTC/USD 609 (the update counts above, 674 and 613, also count USDC/USD) | `public/oct10-prices.json` |
 | ETH low against noon | −19.12%, at 21:20:25Z ($4,346.71 → $3,515.73425953) | same |
+| That low in local time ("Why check first" caption) | 22:20:25 on Oct 10 in London and Lagos (both UTC+1 that day); 05:20:25 on Oct 11 in Singapore (UTC+8) | `Date.prototype.toLocaleString` with time zones Europe/London, Africa/Lagos, Asia/Singapore |
 | BTC low against noon | −13.59%, at 21:20:31Z ($121,637.930697 → $105,107.25) | same |
 | ETH / BTC at the end of the window (last round, 11:55Z on Oct 11) | −11.63% / −7.65% | same |
 | Liquidations drawn, one dot each / borrowers / USDC repaid | 351 / 322 / 5,124,812 | `public/oct10-liquidations.json` `summary` |
@@ -89,6 +90,7 @@ Every Aave v3 Base borrower whose USDC debt was liquidated from Oct 10, 2025 12:
 | Trigger 1.10 on those 173 | 132 crossed (41 already below). Fastest 1,170 s (19.5 min), median 12,187 s (203.1 min); none under 5 minutes |
 | Trigger 1.20 on those 173 | 26 crossed (147 already below). Fastest 21,522 s (358.7 min), median 22,782 s (379.7 min) |
 | When | 277 of the 351 liquidations were from 21:00 to 21:59 UTC on Oct 10 |
+| In the window the replay slows down for | 304 of the 351 liquidations were from 20:50 to 21:40 UTC (`time` in `public/oct10-liquidations.json`, recounted Nov 14) |
 
 The room table above is a worst case over every start in the record; these are real loans on their own paths. The fastest 1.05 loan held only WETH, and its 240 s is longer than the ETH worst case of 208 s, as a real path must be.
 

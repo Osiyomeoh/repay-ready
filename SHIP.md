@@ -1,8 +1,9 @@
 # SHIP: Repay Ready, SERV Hackathon Edition 02, Kite track
 
-**Deadline:** "Submit by November 15, 2026 at 23:59 UTC" (Nov 16, 00:59 in Lagos). Source: [hackathon page](https://www.openserv.ai/hackathon-2), re-checked Nov 11, 2026.
+**Deadline:** "Submit by November 15, 2026 at 23:59 UTC" (Nov 16, 00:59 in Lagos). Source: [hackathon page](https://www.openserv.ai/hackathon-2), re-checked Nov 14, 2026 (unchanged since Nov 11).
 - Judged on "creativity, user readiness and revenue potential".
-- The page names no judges, no prize split ("TBA") and no video length limit.
+- Prizes: "$5,000 awarded across tracks · breakdown announced at kickoff"; track winner × 2, best overall build and special mention are all still "TBA".
+- The page names no judges and no video length limit.
 - It requires no account tag or hashtag on the X post.
 
 **Required:**
@@ -19,12 +20,12 @@
 
 | # | When | You do | Then I do |
 |---|---|---|---|
-| 1 | Now (10 min) | In the SERV console, three things:<br>(a) read the cost of the Nov 11 spike calls under Usage → Cost / Activity, and send me the dollar figure;<br>(b) turn on data collection (Payrun's Edition 01 notes put it at console.openserv.ai/settings/organization; confirm the setting exists);<br>(c) check whether the $5 pre-registration credits arrived (you saw $1). | Put the real cost per check into CLAIMS, README and the write-up, replacing the $0.0025 to $0.0030 floor. Propose a price per check for you to approve. |
+| 1 | Now (10 min) | In the SERV console, three things:<br>(a) read the cost of the Nov 11 spike calls under Usage → Cost / Activity, and send me the dollar figure;<br>(b) turn on data collection (Payrun's Edition 01 notes put it at console.openserv.ai/settings/organization; confirm the setting exists; OpenServ's docs don't mention it, searched in full on Nov 14);<br>(c) check whether the $5 pre-registration credits arrived (you saw $1). | Put the real cost per check into CLAIMS, README and the write-up, replacing the $0.0025 to $0.0030 floor. Propose a price per check for you to approve. |
 | 2 | Nov 12 (≈ 1 h, a few dollars on Base) | **The kill test.** Follow the runbook in §2 and screen-record it. | Run `npm run fire-delay`, set `KITE_FIRE_DELAY` in `src/kite-delay.ts`, rerun the tests, record the sample, then run `npm run stills` for the verdict stills. |
 | 3 | Done Nov 12 | You chose that I add the key. | Piped from `.env` into `vercel env add --sensitive`, never printed; redeployed. A live check on production: SERV said REFUSE and agreed with the checks (11.9 s); through the page at 390 px, 0 console errors and 0 overflow (`runs/2026-11-12-live-check.txt`). Public checks now spend your SERV credits (about 10 a minute per visitor). |
 | 4 | Done Nov 11 | You said "go". | Small local commits on `main`, authored by you, with no co-author trailer; not pushed. WIN-DECISION.md, GITHUB-CRAWL.md and every `.env` file stay out of the repo and out of the deploy (`.gitignore`, `.vercelignore`). |
 | 5 | Nov 13 | Make the repo public when you're ready: `gh repo edit Osiyomeoh/repay-ready --visibility public --accept-visibility-change-consequences`. | **Done Nov 12, with your OK:** created private at https://github.com/Osiyomeoh/repay-ready and pushed `main`; the first CI run passed (typecheck, format check, 63 tests). |
-| 6 | Nov 13–14 | Record the video (§3), using the kill-test recording from step 2. | Check every spoken number against CLAIMS. |
+| 6 | Nov 13–14 | Record the video (§3), using the kill-test recording from step 2 (Plan A), or Plan B if the kill test isn't done by then. | Check every spoken number against CLAIMS. |
 | 7 | **Nov 15, 12:00 UTC** | **Feature freeze.** From here, fixes only. | |
 | 8 | Nov 15 | Post on X (§5) with the video and still 01. | |
 | 9 | Nov 15, before 23:59 UTC | Fill in the Typeform (§6) and submit. | |
@@ -36,7 +37,7 @@
 
 Commands come from [passport-skills `defi-auto-repay/references/commands.md`](https://github.com/gokite-ai/passport-skills/blob/main/defi-auto-repay/references/commands.md). Every value is your choice. The rules below are Kite's own, plus what keeps the measurement clean.
 
-**Before you start** (from Kite's [GETTING_STARTED](https://github.com/gokite-ai/passport-skills/blob/main/GETTING_STARTED.md), [authenticate-user](https://github.com/gokite-ai/passport-skills/blob/main/authenticate-user/SKILL.md) and [defi-auto-repay](https://github.com/gokite-ai/passport-skills/blob/main/defi-auto-repay/SKILL.md), read Nov 12, 2026 at commit `0a95e9c`)
+**Before you start** (from Kite's [GETTING_STARTED](https://github.com/gokite-ai/passport-skills/blob/main/GETTING_STARTED.md), [authenticate-user](https://github.com/gokite-ai/passport-skills/blob/main/authenticate-user/SKILL.md) and [defi-auto-repay](https://github.com/gokite-ai/passport-skills/blob/main/defi-auto-repay/SKILL.md), read Nov 12, 2026 at commit `0a95e9c`; re-checked Nov 14 at `efabd88`, the latest: since `0a95e9c` only `wallet-send` changed, so these steps still match Kite's files)
 1. **Install `kpass` 6.8.9 or later**, outside this project folder:
    ```sh
    cd ~ && git clone https://github.com/gokite-ai/passport-skills && bash passport-skills/scripts/setup.sh
@@ -89,7 +90,7 @@ Commands come from [passport-skills `defi-auto-repay/references/commands.md`](ht
     It reads Aave's HF block by block from chain data alone. It prints the crossing block, the repay block and the delay in seconds, plus the line for `src/kite-delay.ts`. Anyone can rerun it.
 11. **Afterwards:** repay and withdraw on Aave whenever you like. The trigger has fired once and is spent.
 
-**Costs:** Base gas for the supply, borrow and repay [FILL: actual]. Kite's fee, if any: [FILL]; the skill files don't state one. Kite's repay uses your Passport's USDC to pay down your own loan.
+**Costs:** Base gas for the supply, borrow and repay [FILL: actual]. Kite's fee, if any: [FILL]; the skill files don't state one (re-checked Nov 14 at `efabd88`, including `passport-overview`, Kite's page on what Passport costs). Kite's repay uses your Passport's USDC to pay down your own loan.
 
 ---
 
@@ -107,18 +108,38 @@ Kite wording rules:
 - say it "fires once";
 - show Kite's warning verbatim.
 
+**Footage that is ready now:**
+- `ship/clips/oct10-replay-1080p.mp4` (1920×1080, 28 s, no sound). Its clock reads 20:50:04 UTC at 0:04.8 and 21:20:25 (the ETH low) at 0:13.3, checked frame by frame. Cut it; don't speed it up, since its caption states the playback speed.
+- The "Why check first" drawings: record them on the page, where they move (still: `ship/stills/08-why-check-first.png`).
+- Keep the replay between the quote and the drawings. The drawn person is "you", not bruce235 or any real borrower, and must not read as them.
+
+**Plan A: the kill test is done.**
+
 | Time | On screen | You say |
 |---|---|---|
 | 0:00–0:10 | Black card, white text: "I lost all my life savings." · bruce235, Aave governance forum, Oct 17, 2025. Then: "Oct 10, 2025: more than $250M of Aave loans liquidated." | "On October 10, 2025, Aave liquidated more than 250 million dollars of loans. A week later, one borrower wrote: 'I lost all my life savings.'" |
-| 0:10–0:22 | The page, `?address=` demo loan. The Oct 10 card: "4 min from 1.05 to liquidatable, worst case." Drag the slider. | "Kite can now repay your Aave loan automatically, once, when your health factor drops. But that night, a loan at 1.05 had **3.5 minutes** before it could be liquidated. This one had 4." |
-| 0:22–0:32 | The recorded run (`?sample`): the verdict card and the line "SERV Reasoning said … It agrees with the checks." | "Repay Ready replays your exact loan and trigger through that night, and SERV Reasoning has to agree with the code before it ever says ARM." |
-| 0:32–1:00 | The checks list: room against Kite's measured delay, repay size, Passport funds, expiry. The ADJUST button with the suggested amount. | "Nine checks. Is there room for Kite's measured speed? Is the repay big enough to clear the loan? Is your Passport funded until expiry? If a fix exists, it shows the fix. You press it; it never picks for you." |
-| 1:00–1:35 | Your kill-test recording: `create` → passkey approval → `armed` → one borrow → `fired` → the `npm run fire-delay` output with its seconds. | "We measured Kite on a real loan. HF crossed the trigger at block X; Kite's repay landed N seconds later. That number is what every check is held to, at twice the margin." |
+| 0:10–0:20 | The replay clip, 0:05 to 0:15: from 20:50 UTC through the ETH low at 21:20:25. | "That night, a loan at health factor 1.05 had **3.5 minutes** before it could be liquidated." |
+| 0:20–0:30 | Scroll the three "Why check first" drawings, left to right. | "Kite can now repay your Aave loan automatically. It fires once, when your health factor drops below your trigger, even while you sleep. Its repay has to land inside that window." |
+| 0:30–0:40 | The recorded run (`?sample`): the verdict card and the line "SERV Reasoning said … It agrees with the checks." | "Repay Ready replays your exact loan and trigger through that night, and SERV Reasoning has to agree with the code before it ever says ARM." |
+| 0:40–1:05 | The checks list: room against Kite's measured delay, repay size, Passport funds, expiry. The ADJUST button with the suggested amount. | "Nine checks. Is there room for Kite's measured speed? Is the repay big enough to clear the loan? Is your Passport funded until expiry? If a fix exists, it shows the fix. You press it; it never picks for you." |
+| 1:05–1:35 | Your kill-test recording: `create` → passkey approval → `armed` → one borrow → `fired` → the `npm run fire-delay` output with its seconds. | "We measured Kite on a real loan. HF crossed the trigger at block X; Kite's repay landed N seconds later. That number is what every check is held to, at twice the margin." |
 | 1:35–1:55 | **Safe failure.** Sign for the demo loan with a wallet that doesn't own it → REFUSE, no command. Kite's warning on screen. | "If the loan isn't yours, it refuses, and there's no command to copy. Kite says it plainly: …" (read the warning). |
 | 1:55–2:15 | Your own loan, signed: ARM, the exact `kpass defi repay-trigger create` command, the warning. | "On my own loan it says ARM and gives me Kite's exact command. I still arm it myself, with my passkey. It fires once. It reduces liquidation risk. It doesn't remove it." |
-| 2:15–2:30 | The README "Who pays" lines and the repo URL. | "A check costs about [FILL] in SERV. The Passport that funds the repay can pay for it over x402, inside a limit you set. Repay Ready: the repo is open." |
+| 2:15–2:30 | The README "Who pays" lines and the repo URL. | "A check costs about [FILL] in SERV. Next, the Passport that funds the repay can pay for each check over x402, inside a limit you set. Repay Ready: the repo is open." |
 
 Fill N, X and the cost from the runs before recording. Every spoken number must be in CLAIMS.md.
+
+**Plan B: you record before the kill test is done.** While `KITE_FIRE_DELAY` is `null`, every check ends REFUSE, with the room check reading "Kite's fire delay has not been measured yet, so we cannot say Kite acts in time." (`src/checks.ts`). Keep 0:00–0:30 and 1:35–1:55 from Plan A and swap these rows:
+
+| Time | On screen | You say |
+|---|---|---|
+| 0:30–0:40 | A check on the demo loan (`?address=`), or the recorded run if you've recorded it: SERV's line, then REFUSE. | "Repay Ready replays your exact loan and trigger through that night. SERV Reasoning has to agree with the code before it ever says ARM, and today it says REFUSE." |
+| 0:40–1:05 | The checks list, stopping on the room check's line above. | "Nine checks. The one that decides it: Kite's speed hasn't been measured on a real trigger yet. So it won't guess. Every check is held to that number, at twice the margin, once it's measured." |
+| 1:05–1:35 | "The real night, loan by loan": press "show the fastest one" and hold on its timeline. The tiles above it show 322 and $345,765; if you decide not to use those figures, start the shot at the lookup, below them. | "This is a real loan from that night. From health factor 1.05 to liquidatable took four minutes. A repay that lands after that is too late." |
+| 1:55–2:15 | Your own loan, signed: REFUSE, no command; read the deciding check off the screen. | "On my own loan it still says REFUSE and gives no command. Once Kite's speed is measured, this is where it can say ARM, and I'd still arm it myself, with my passkey. It fires once. It reduces liquidation risk. It doesn't remove it." |
+| 2:15–2:30 | As Plan A; if the console cost isn't read yet, drop the cost sentence. | "Next, the Passport that funds the repay can pay for each check over x402, inside a limit you set. Repay Ready: the repo is open." |
+
+Plan B's "four minutes" is the fastest of the 157 real loans that crossed 1.05 (240 s, CLAIMS "Real liquidations"); "3.5 minutes" stays the one headline number.
 
 ---
 
@@ -177,7 +198,7 @@ Repay Ready replays your loan and Kite auto-repay through that night. SERV Reaso
 https://repay-ready.vercel.app
 ```
 
-Attach the video and still 01. Tagging Kite: [FILL: Kite's official X handle; I haven't verified it, so check before adding. Adding it also needs a shorter line].
+Attach the video and still 01. Tagging Kite: its official X account is **@GoKiteAI** (the X link in the footer of [gokite.ai](https://gokite.ai), checked Nov 14). The post is at 280 of 280, so adding "@GoKiteAI " (10 characters) means cutting 10 elsewhere; whether to tag is your call.
 
 ---
 

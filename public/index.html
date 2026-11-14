@@ -2,32 +2,128 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Repay Ready</title>
     <meta name="description" content="Check a Kite auto-repay on your Aave loan against the Oct 10, 2025 crash before you arm it." />
-    <link
-      rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f766e'/%3E%3Cpath d='M9 17l5 5 9-11' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
+    <meta name="theme-color" content="#0b1110" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f4f6f3" media="(prefers-color-scheme: light)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://repay-ready.vercel.app/" />
+    <meta property="og:title" content="Repay Ready: check your Kite auto-repay before you arm it" />
+    <meta
+      property="og:description"
+      content="Replays your Aave loan and trigger through the prices Aave used on Oct 10, 2025, then answers ARM, ADJUST or REFUSE."
     />
+    <meta property="og:image" content="https://repay-ready.vercel.app/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Every USDC loan Aave liquidated on Base on Oct 10, 2025, drawn over the night's ETH and BTC prices." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/mark.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/style.css" />
+    <script>
+      // Before first paint, so a saved theme never flashes the other one.
+      try {
+        const t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
   </head>
   <body>
-    <header class="wrap top">
-      <div class="brand"><span class="mark" aria-hidden="true"></span>Repay Ready</div>
-      <h1>Check your Kite auto-repay before you arm it.</h1>
-      <p class="lede">
-        On Oct 10, 2025, an Aave loan at health factor 1.05 had <strong>3.5 minutes</strong> before it could be liquidated. Kite's repay has to land inside that
-        window. Repay Ready replays your exact loan and trigger through Aave's own prices from that night, and tells you whether to arm, adjust or wait.
-      </p>
+    <a class="skip" href="#step-address">Skip to the check</a>
+    <nav class="nav" aria-label="Main">
+      <div class="nav-in">
+        <a class="brand" href="/" aria-label="Repay Ready, home">
+          <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+            <rect width="32" height="32" rx="9" class="mark-bg" />
+            <path d="M6 9h5v4h4v3h4v4h5" class="mark-path" />
+            <path d="M6 24h20" class="mark-liq" />
+            <circle cx="24" cy="20" r="2.8" class="mark-dot" />
+          </svg>
+          <span>Repay Ready</span>
+        </a>
+        <div class="nav-links">
+          <a href="#step-address">Check a loan</a>
+          <a href="#night">The night</a>
+          <a href="#how">How it decides</a>
+        </div>
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Switch to light theme" title="Switch theme">
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="i-sun">
+            <circle cx="12" cy="12" r="4.2" />
+            <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" />
+          </svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="i-moon"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" /></svg>
+        </button>
+      </div>
+    </nav>
+
+    <header class="hero" id="top">
+      <div class="hero-in">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="pulse" aria-hidden="true"></span>Kite auto-repay · Aave v3 on Base</p>
+          <h1>Check your Kite auto-repay <span class="nowrap">before you arm it.</span></h1>
+          <p class="lede">
+            On Oct 10, 2025, an Aave loan at health factor 1.05 had <strong>3.5 minutes</strong> before it could be liquidated. Kite's repay has to land inside
+            that window. Repay Ready replays your exact loan and trigger through Aave's own prices from that night, and tells you whether to arm, adjust or
+            wait.
+          </p>
+          <div class="cta">
+            <a class="btn" href="#step-address" id="cta-check">Check my loan</a>
+            <a class="btn ghost" href="#night">See the real night</a>
+          </div>
+        </div>
+
+        <figure class="replay" id="replay" aria-labelledby="replay-title">
+          <figcaption class="replay-head">
+            <span class="replay-title" id="replay-title">Oct 10, 2025, replayed</span>
+            <span class="clock" id="replay-clock" aria-live="off">12:00:00 UTC</span>
+          </figcaption>
+          <div class="replay-stage">
+            <canvas
+              id="replay-canvas"
+              role="img"
+              aria-label="The night of Oct 10, 2025: ETH and BTC prices from 12:00 UTC, and every USDC loan Aave liquidated on Base, appearing at the moment it was liquidated."
+            ></canvas>
+            <div class="replay-chip" id="replay-chip" hidden>Slow motion</div>
+          </div>
+          <div class="replay-read" id="replay-read">
+            <div><span class="k">ETH</span><span class="v" id="rr-eth">–</span></div>
+            <div><span class="k">BTC</span><span class="v" id="rr-btc">–</span></div>
+            <div><span class="k">Borrowers liquidated</span><span class="v" id="rr-n">–</span></div>
+            <div><span class="k">USDC repaid</span><span class="v" id="rr-usdc">–</span></div>
+          </div>
+          <div class="replay-bar">
+            <button type="button" class="icon-btn play" id="replay-play" aria-label="Play the night">
+              <svg viewBox="0 0 24 24" aria-hidden="true" class="i-play"><path d="M8 5.5v13l10.5-6.5z" /></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true" class="i-pause"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /></svg>
+            </button>
+            <input type="range" id="replay-scrub" min="0" max="1000" value="0" step="1" aria-label="Time on Oct 10–11, 2025" />
+            <span class="replay-legend" aria-hidden="true">
+              <i class="sw sw-eth"></i>ETH <i class="sw sw-btc"></i>BTC <i class="sw sw-dot"></i>a liquidation
+            </span>
+          </div>
+          <p class="replay-note" id="replay-note">Loading the record…</p>
+        </figure>
+      </div>
     </header>
 
-    <main class="wrap">
-      <section class="card" id="step-address" aria-labelledby="h-address">
-        <h2 id="h-address"><span class="n">1</span> Your Aave loan on Base</h2>
+    <main class="flow" id="flow">
+      <section class="card step" id="step-address" aria-labelledby="h-address" data-step="1">
+        <h2 id="h-address"><span class="n" aria-hidden="true">1</span> Your Aave loan on Base</h2>
         <form id="address-form" class="row">
           <label class="grow">
             <span class="lbl">Loan address</span>
-            <input id="address" name="address" autocomplete="off" spellcheck="false" placeholder="0x…" required />
+            <span class="field addr">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="6.5" />
+                <path d="M16 16l4.5 4.5" />
+              </svg>
+              <input id="address" name="address" autocomplete="off" spellcheck="false" placeholder="0x…" required />
+            </span>
           </label>
           <button type="submit" id="address-go">Read loan</button>
         </form>
@@ -37,16 +133,29 @@
 
       <div id="recorded" class="banner" hidden></div>
 
-      <section class="card" id="step-position" hidden aria-labelledby="h-position">
+      <section class="card step" id="step-position" hidden aria-labelledby="h-position" data-step="1">
         <h2 id="h-position">The loan, read from Aave now</h2>
+        <div class="loan">
+          <div class="gauge-box">
+            <svg id="gauge" class="gauge" viewBox="0 0 240 150" role="img" aria-labelledby="gauge-title"><title id="gauge-title">Health factor</title></svg>
+          </div>
+          <div class="loan-side">
+            <div class="limit" id="limit" hidden>
+              <div class="limit-head"><span>Debt against the liquidation limit</span><b id="limit-pct"></b></div>
+              <div class="limit-bar" aria-hidden="true"><span id="limit-fill"></span></div>
+              <div class="limit-foot"><span id="limit-debt"></span><span id="limit-cap"></span></div>
+            </div>
+            <p class="drop" id="pos-drop" hidden></p>
+          </div>
+        </div>
         <div class="stats" id="pos-stats"></div>
         <p class="fine" id="pos-fine"></p>
         <p class="msg warn" id="pos-warn" hidden></p>
         <p class="msg warn" id="pos-night" hidden></p>
       </section>
 
-      <section class="card" id="step-room" hidden aria-labelledby="h-room">
-        <h2 id="h-room">Oct 10, 2025: how long Kite would have had</h2>
+      <section class="card step" id="step-room" hidden aria-labelledby="h-room" data-step="2">
+        <h2 id="h-room"><span class="n" aria-hidden="true">2</span> Oct 10, 2025: how long Kite would have had</h2>
         <p class="fine" id="room-intro"></p>
         <label class="slider">
           <span class="lbl">If your trigger is health factor <output id="room-t"></output></span>
@@ -55,6 +164,13 @@
         <p class="big" id="room-headline"></p>
         <figure class="chart">
           <svg id="room-chart" role="img" aria-labelledby="room-chart-title"><title id="room-chart-title"></title></svg>
+          <div class="chart-bar">
+            <button type="button" class="ghost small" id="room-play">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" /></svg>
+              Play the fall
+            </button>
+            <span class="live" id="room-live" aria-live="polite"></span>
+          </div>
           <figcaption id="room-caption" class="fine"></figcaption>
         </figure>
         <table class="rooms" id="room-table">
@@ -64,25 +180,32 @@
         </table>
       </section>
 
-      <section class="card" id="step-plan" hidden aria-labelledby="h-plan">
-        <h2 id="h-plan"><span class="n">2</span> Your trigger</h2>
+      <section class="card step" id="step-plan" hidden aria-labelledby="h-plan" data-step="3">
+        <h2 id="h-plan"><span class="n" aria-hidden="true">3</span> Your trigger</h2>
         <form id="plan-form">
           <label>
             <span class="lbl">In your own words (optional)</span>
             <textarea
               id="plan-text"
-              rows="4"
+              rows="3"
               maxlength="2000"
               placeholder="I'm away for 10 days. If my health factor drops to 1.1, repay 60 USDC. Keep it on for 14 days. My Passport wallet has 80 USDC."
             ></textarea>
           </label>
           <div class="row end">
-            <button type="submit" class="ghost" id="plan-go">Fill the fields from this</button>
+            <button type="submit" class="ghost" id="plan-go">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z" /></svg>
+              Fill the fields from this
+            </button>
           </div>
           <p class="msg" id="plan-msg" role="status"></p>
         </form>
         <form id="fields" class="grid">
-          <label><span class="lbl">Repay when health factor drops below</span><input id="f-hf" inputmode="decimal" required /></label>
+          <label>
+            <span class="lbl">Repay when health factor drops below</span>
+            <input id="f-hf" inputmode="decimal" required />
+            <span class="field-note" id="f-hf-note" aria-live="polite"></span>
+          </label>
           <label>
             <span class="lbl">Repay (USDC)</span>
             <span class="inline"
@@ -96,8 +219,8 @@
         <p class="fine">You choose every value. Kite's rule, and ours: we never pick them for you. We only tell you what the record says about yours.</p>
       </section>
 
-      <section class="card" id="step-sign" hidden aria-labelledby="h-sign">
-        <h2 id="h-sign"><span class="n">3</span> Prove the loan is yours</h2>
+      <section class="card step" id="step-sign" hidden aria-labelledby="h-sign" data-step="4">
+        <h2 id="h-sign"><span class="n" aria-hidden="true">4</span> Prove the loan is yours</h2>
         <blockquote class="kite" id="kite-warning-1"></blockquote>
         <p class="fine">
           Kite repays the address you enter, so we ask you to prove it first. Sign the message below with the wallet that owns the loan. Signing costs nothing
@@ -105,7 +228,10 @@
         </p>
         <pre class="message" id="sign-message"></pre>
         <div class="row">
-          <button type="button" id="sign-go">Sign with my wallet</button>
+          <button type="button" id="sign-go">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18.5c3-1 4.5-3.5 6-6.5s3-6 5.5-6 2 3-1 5.5-5 4.5-3.5 6 4-1.5 5.5-1.5 1.5 2 4 2" /></svg>
+            Sign with my wallet
+          </button>
           <details class="paste">
             <summary>Signed elsewhere?</summary>
             <label><span class="lbl">Paste the signature</span><input id="sign-paste" spellcheck="false" placeholder="0x…" /></label>
@@ -114,9 +240,14 @@
         <p class="msg" id="sign-msg" role="status"></p>
       </section>
 
-      <section class="card" id="step-check" hidden aria-labelledby="h-check">
-        <h2 id="h-check"><span class="n">4</span> Check</h2>
-        <button type="button" id="check-go" class="wide">Run the check</button>
+      <section class="card step" id="step-check" hidden aria-labelledby="h-check" data-step="5">
+        <h2 id="h-check"><span class="n" aria-hidden="true">5</span> Check</h2>
+        <button type="button" id="check-go" class="wide big-btn">Run the check</button>
+        <div class="keys" id="keys" hidden aria-hidden="true">
+          <div class="key"><span class="key-dot"></span>Nine checks in code</div>
+          <div class="key-link"><span></span></div>
+          <div class="key"><span class="key-dot"></span>SERV Reasoning + Shadow Agent</div>
+        </div>
         <p class="msg" id="check-msg" role="status"></p>
         <div id="result" hidden>
           <div class="verdict" id="verdict"></div>
@@ -128,35 +259,81 @@
               Run this, open the approval link Kite prints, and arm it with your passkey. It reduces liquidation risk; it fires once, and then you need to arm a
               new one.
             </p>
-            <div class="cmd"><code id="cmd"></code><button type="button" class="ghost small" id="cmd-copy">Copy</button></div>
+            <div class="cmd">
+              <span class="cmd-prompt" aria-hidden="true">$</span><code id="cmd"></code><button type="button" class="ghost small" id="cmd-copy">Copy</button>
+            </div>
             <blockquote class="kite" id="kite-warning-2"></blockquote>
           </div>
         </div>
       </section>
+    </main>
 
-      <section class="card" id="night" aria-labelledby="h-night">
-        <h2 id="h-night">The real night, loan by loan</h2>
-        <p class="fine" id="night-intro">Loading the record of every USDC loan Aave liquidated on Base that night…</p>
-        <div class="stats" id="night-stats"></div>
-        <p class="fine" id="night-fine"></p>
-        <form id="night-form" class="row">
-          <label class="grow">
-            <span class="lbl">Was an address liquidated that night?</span>
-            <input id="night-address" name="night-address" autocomplete="off" spellcheck="false" placeholder="0x…" required />
-          </label>
-          <button type="submit" class="ghost" id="night-go">Look up</button>
-        </form>
-        <p class="hint" id="night-example-hint" hidden>Or <button type="button" class="link" id="night-example">show the fastest one</button>.</p>
-        <p class="msg" id="night-msg" role="status"></p>
-        <div id="night-row" hidden>
-          <div class="stats" id="night-row-stats"></div>
-          <div id="night-row-notes"></div>
+    <section class="wide-band" id="night" aria-labelledby="h-night">
+      <div class="band-in">
+        <p class="eyebrow">The record</p>
+        <h2 id="h-night" class="band-h">The real night, loan by loan</h2>
+        <p class="band-lede" id="night-intro">Loading the record of every USDC loan Aave liquidated on Base that night…</p>
+        <div class="stats wide" id="night-stats"></div>
+
+        <figure class="panel swarm-panel">
+          <figcaption class="panel-head">
+            <span>Every liquidation, by time and size</span>
+            <span class="seg" role="group" aria-label="Time range">
+              <button type="button" class="seg-b on" data-range="day" aria-pressed="true">24 hours</button>
+              <button type="button" class="seg-b" data-range="hour" aria-pressed="false">20:50–21:40 UTC</button>
+            </span>
+          </figcaption>
+          <svg id="swarm" class="swarm" role="img" aria-labelledby="swarm-title">
+            <title id="swarm-title">Every USDC liquidation on Aave v3 Base, Oct 10–11, 2025</title>
+          </svg>
+          <div class="tip" id="swarm-tip" hidden></div>
+          <p class="fine" id="swarm-note"></p>
+        </figure>
+
+        <figure class="panel">
+          <figcaption class="panel-head"><span id="hist-title">From health factor 1.05 to liquidatable, real loans</span></figcaption>
+          <svg id="hist" class="hist" role="img" aria-labelledby="hist-title"></svg>
+          <p class="fine" id="night-fine"></p>
+        </figure>
+
+        <div class="panel lookup">
+          <form id="night-form" class="row">
+            <label class="grow">
+              <span class="lbl">Was an address liquidated that night?</span>
+              <span class="field addr">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="11" cy="11" r="6.5" />
+                  <path d="M16 16l4.5 4.5" />
+                </svg>
+                <input id="night-address" name="night-address" autocomplete="off" spellcheck="false" placeholder="0x…" required />
+              </span>
+            </label>
+            <button type="submit" class="ghost" id="night-go">Look up</button>
+          </form>
+          <p class="hint" id="night-example-hint" hidden>
+            Or <button type="button" class="link" id="night-example">show the fastest one</button>, or pick any dot above.
+          </p>
+          <p class="msg" id="night-msg" role="status"></p>
+          <div id="night-row" hidden>
+            <svg id="story" class="story" role="img" aria-labelledby="story-title"><title id="story-title"></title></svg>
+            <div class="stats" id="night-row-stats"></div>
+            <div id="night-row-notes"></div>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="card how" aria-labelledby="h-how">
-        <h2 id="h-how">How the check decides</h2>
-        <ol>
+    <section class="how" id="how" aria-labelledby="h-how">
+      <div class="band-in">
+        <p class="eyebrow">How the check decides</p>
+        <h2 id="h-how" class="band-h">Two keys, and it fails closed</h2>
+        <svg class="pipe" id="pipe" viewBox="0 0 960 260" role="img" aria-labelledby="pipe-title">
+          <title id="pipe-title">
+            Your loan is read from Aave and replayed through Oct 10, 2025. Nine checks run in code while SERV Reasoning applies the same policy and its Shadow
+            Agent validates the answer. Only if both agree on ARM do you get the Kite command; otherwise the answer is ADJUST or REFUSE.
+          </title>
+        </svg>
+        <ol class="how-list">
           <li>
             <strong>Your loan, exactly.</strong> We read every balance, price and threshold from Aave v3 on Base at one block, and rebuild your health factor.
             If it doesn't match Aave's own number, we stop.
@@ -174,12 +351,14 @@
             Agent. If they disagree, or SERV fails, the answer is REFUSE and nothing is armed.
           </li>
         </ol>
-      </section>
-    </main>
+      </div>
+    </section>
 
-    <footer class="wrap foot">
-      <p>Read-only. Repay Ready never holds keys or funds, and it can't arm anything. You arm with Kite, with your passkey.</p>
-      <p>Prices: Aave's Chainlink feeds on Base. Reasoning: SERV Reasoning by OpenServ. Repay: Kite Passport <code>kpass defi</code>.</p>
+    <footer class="foot">
+      <div class="band-in">
+        <p>Read-only. Repay Ready never holds keys or funds, and it can't arm anything. You arm with Kite, with your passkey.</p>
+        <p>Prices: Aave's Chainlink feeds on Base. Reasoning: SERV Reasoning by OpenServ. Repay: Kite Passport <code>kpass defi</code>.</p>
+      </div>
     </footer>
     <script type="module" src="/app.js"></script>
   </body>

@@ -111,7 +111,7 @@ export function evaluate(pos: Position, idx: IndexResult, input: ArmInput, delay
     status: pos.hfMatches ? "pass" : "fail",
     onFail: "REFUSE",
     detail: pos.hfMatches
-      ? `Rebuilt HF ${fmt(pos.model.hf ?? 0, 4)} matches Aave's ${fmt(hf ?? 0, 4)} at block ${pos.blockNumber} (gap ${pos.hfRelErr?.toExponential(1)}).`
+      ? `Rebuilt HF ${fmt(pos.model.hf ?? 0, 4)} matches Aave's ${fmt(hf ?? 0, 4)} at block ${pos.blockNumber}${pos.hfRelErr === 0 ? ", exactly" : pos.hfRelErr == null ? "" : ` (relative gap ${pos.hfRelErr.toExponential(1)})`}.`
       : `Rebuilt HF ${pos.model.hf} does not match Aave's ${hf}: we will not judge a loan we cannot reproduce.`,
   });
 

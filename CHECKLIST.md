@@ -10,7 +10,7 @@ Status is **done**, **todo**, or **blocked (who)**. Update it in the same commit
 | Sponsor spike: one real SERV call | done Nov 11: fields read, blanks left null, injection refused, verdict agreed with the code | `runs/2026-11-11-spike-serv.txt` |
 | Sponsor spike: Kite kill test (fire delay) | blocked (Samuel: kpass login, funds); the measuring tool is done: `npm run fire-delay` (7 tests; 397 s on a real third-party repay as a smoke test) | runbook in SHIP.md §2 → `src/kite-delay.ts` |
 | PLAN.md, CLAIMS.md, CHECKLIST.md | done | this folder |
-| Real tests | done (70 tests on Nov 13: 69 pass, 1 skipped because that live loan has closed; some against live Base; none call SERV) | `npm test`; CI in `.github/workflows/ci.yml` runs typecheck, format check and tests on push; first GitHub run passed Nov 12 |
+| Real tests | done (73 tests on Nov 14: 72 pass, 1 skipped because that live loan has closed; some against live Base; none call SERV) | `npm test`; CI in `.github/workflows/ci.yml` runs typecheck, format check and tests on push; first GitHub run passed Nov 12 |
 | Typecheck clean | done | `npm run typecheck` |
 | Build clean | done Nov 11: Vercel build completed with no errors; Node pinned to 24.x (as local and CI), which cleared the only warnings. Nov 13 redeploy: no errors; Vercel's newer builder (CLI 65.14.0) prints two npm warnings: unknown env config "cache-dir", and esbuild's postinstall not yet covered by allowScripts | `npx vercel inspect <deployment> --logs` |
 | Sample mode (a recorded real run) | code done; record after the kill test (now it would only show the unmeasured-delay REFUSE) | `npm run record:sample`, `GET /api/sample` |

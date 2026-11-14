@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Repay Ready's mark: a health factor stepping down, oracle update by oracle update, toward the liquidation line. -->
+  <style>
+    .bg { fill: #0d7c71; }
+    .ink { stroke: #ffffff; }
+    .dot { fill: #ffffff; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #34d3be; }
+      .ink { stroke: #03211d; }
+      .dot { fill: #03211d; }
+    }
+  </style>
+  <rect class="bg" width="32" height="32" rx="9" />
+  <path class="ink" d="M6 9h5v4h4v3h4v4h5" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+  <path class="ink" d="M6 24h20" stroke-width="1.6" stroke-dasharray="2 2.4" opacity="0.55" />
+  <circle class="dot" cx="24" cy="20" r="2.8" />
+</svg>

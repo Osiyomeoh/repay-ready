@@ -158,7 +158,7 @@ On ARM it gives the exact `kpass defi repay-trigger create` command and Kite's w
 - the page, the API and the CLI;
 - the fire-delay tool;
 - the real-night backtest over all 322 borrowers liquidated on USDC debt that night, and the agent skill;
-- 70 tests.
+- 73 tests.
 
 Prior work, declared: Loan Shield (my MIT repo, Morpho) gave the repay-to-target idea. The Aave version is new code.
 
@@ -228,6 +228,7 @@ Attach the video and still 01. Tagging Kite: [FILL: Kite's official X handle; I 
 
 | # | File | Shows | Status |
 |---|---|---|---|
+| 0 | `ship/stills/00-hero.png` | The front page: the headline and the whole night replayed (ETH, BTC, every liquidation) | done Nov 14 (also `00-hero-phone-390.png`) |
 | 1 | `ship/stills/01-oct10-replay.png` | The Oct 10 replay: "4 min from 1.05 to liquidatable" on the cbBTC demo loan, the chart and the room table | done (re-recorded Nov 13 on the corrected record) |
 | 2 | `ship/stills/04-verdict-recorded.png` | Verdict, SERV agreeing with the checks, every check spelled out | after the kill test + `record:sample` (`npm run stills` makes it) |
 | 3 | your terminal: `npm run fire-delay` output | Kite's measured fire delay, block by block | after the kill test (you screenshot it; our own output, no third-party logos) |
@@ -238,3 +239,5 @@ Attach the video and still 01. Tagging Kite: [FILL: Kite's official X handle; I 
 | 8 | `ship/stills/07-real-night-phone-390.png` | The same on a phone | done Nov 13 |
 
 Regenerate all of them with `npm run stills` (local) or `npm run stills -- --base <deployed url>`. The run also fails on any console error or sideways scroll, so it doubles as the 390/1280 check.
+
+**Clips and the social card.** `npm run clip` renders the hero replay frame by frame to `ship/clips/oct10-replay-1080p.mp4` (1920×1080) and `ship/clips/oct10-replay-square.mp4` (1080×1080, for X): 28 s at 30 fps, about 1 MB each, no audio, our own screen only. The clip keeps the figure's caption, so the sources and the speed-up factors are in frame. `npm run og` renders `public/og.png` (1200×630, the link preview on X) and `public/apple-touch-icon.png` from the live hero. `ship/` is in `.vercelignore`, so the clips are not deployed; whether to commit them is your call.

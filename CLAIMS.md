@@ -22,6 +22,19 @@ Rule: a number goes in the README, the page, the video or the submission only if
 
 The record was re-fetched from the Oct 10 feeds, and every number here was rerun.
 
+## The front-page replay (hero), the og.png card and the clips
+
+The hero draws `public/oct10-prices.json`, which `npx tsx scripts/oct10-prices.ts` cuts from `data/oct10-2025.json` (`src/night-prices.ts`, tested in `test/night-prices.test.ts`), and `public/oct10-liquidations.json` (below). The percentages are against each feed's 12:00 UTC price, so they differ from the worst falls above, which start at the 13:38–13:39 highs.
+
+| Claim | Value | Source |
+|---|---|---|
+| Rounds drawn | ETH/USD 670, BTC/USD 609 (the update counts above, 674 and 613, also count USDC/USD) | `public/oct10-prices.json` |
+| ETH low against noon | −19.12%, at 21:20:25Z ($4,346.71 → $3,515.73425953) | same |
+| BTC low against noon | −13.59%, at 21:20:31Z ($121,637.930697 → $105,107.25) | same |
+| ETH / BTC at the end of the window (last round, 11:55Z on Oct 11) | −11.63% / −7.65% | same |
+| Liquidations drawn, one dot each / borrowers / USDC repaid | 351 / 322 / 5,124,812 | `public/oct10-liquidations.json` `summary` |
+| Playback speed | 8,340× real time outside 20:50–21:40 UTC (23 h 10 min in 10 s); 214× inside it (50 min in 14 s); so that window is drawn 39× wider | `public/hero.js` `FAST_S`, `SLOW_S` [POLICY: presentation only] |
+
 ## Room: time from "HF = trigger" to "liquidatable", worst case over every start in the record
 
 From `npx tsx scripts/oct10-table.ts`, for a loan with USDC-only debt and one collateral family:

@@ -17,7 +17,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "fire-delay": "tsx --env-file-if-exists=.env scripts/fire-delay.ts",
-    "stills": "tsx scripts/stills.ts"
+    "stills": "tsx scripts/stills.ts",
+    "og": "tsx scripts/og.ts",
+    "clip": "tsx scripts/clip.ts"
   },
   "dependencies": {
     "viem": "2.56.9"

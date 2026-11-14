@@ -97,13 +97,16 @@ Repay Ready uses [SERV Reasoning](https://docs.openserv.ai/serv-reasoning/api/ch
 |---|---|
 | `npm run dev` | page and API on http://localhost:3000 |
 | `npm run check -- <address> --hf --amount --expires --away [--passport] [--json]` | the check from the terminal |
-| `npm test` | 70 tests; some read live Base, so they need network |
+| `npm test` | 73 tests; some read live Base, so they need network |
 | `npm run typecheck` | strict TypeScript over `src`, `api`, `scripts`, `test` and `public/app.js` |
 | `npx tsx scripts/oct10-table.ts` | the room table in CLAIMS.md |
 | `npx tsx scripts/oct10-liquidations.ts` | the real-night backtest: every USDC loan Aave liquidated on Base that night, to `public/oct10-liquidations.json` (needs archive RPCs) |
 | `npm run spike:serv` | one real SERV call of each kind (needs `SERV_API_KEY`) |
 | `npm run record:sample -- <address> --hf …` | saves a real run to `data/sample.json` for the recorded-run button |
 | `npm run fire-delay -- <address> --hf <trigger> --repay-tx <hash>` | measures Kite's fire delay from a fired trigger, using chain data only |
+| `npm run stills` | the gallery stills to `ship/stills/`, from the running page in headless Chrome; fails on any console error or sideways scroll |
+| `npm run og` | `public/og.png` (the 1200×630 social card) and `public/apple-touch-icon.png`, rendered from the running page |
+| `npm run clip` | the hero replay as video to `ship/clips/` (1920×1080 and 1080×1080 MP4, frame by frame; needs ffmpeg) |
 
 Deep links: `/?address=0x…` reads that loan on open, `/?sample` opens the recorded run, `/?night=0x…` looks an address up in the Oct 10 liquidation record, and `/?night` shows the fastest real loan.
 

@@ -132,6 +132,10 @@ Deploys to Vercel as static files from `public/` with the functions in `api/`.
 
 Every number in this README, the page and the video is listed with its source in [CLAIMS.md](CLAIMS.md).
 
+## Built during the hackathon
+
+All of Repay Ready's code was written from Nov 11, 2026. Prior work, declared: the repay-to-target idea comes from Loan Shield (MIT, the same author's Morpho project); no code is reused.
+
 ## License
 
 MIT

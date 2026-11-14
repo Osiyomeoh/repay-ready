@@ -52,7 +52,7 @@ From `npx tsx scripts/oct10-table.ts`, for a loan with USDC-only debt and one co
 
 **The headline number is "3.5 minutes"** (HF 1.05, ETH collateral; 4 minutes for BTC).
 
-Corrections to WIN-DECISION.md:
+Earlier figures, superseded:
 - **"4 minutes" and "111 minutes" are superseded.** Those came from Coinbase 5-minute candles and a single start time (12:00Z). The numbers above come from Aave's own oracle, take the worst case over every oracle update, and come from a script you can rerun.
 - **The "1.10 is safe" story is wrong.** On Aave's oracle, 1.10 had 8 minutes for ETH.
 
